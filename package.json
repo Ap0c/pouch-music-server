@@ -4,9 +4,11 @@
   "description": "A means of serving music files over a local network, and a web app to control playback.",
   "author": "Ap0c",
   "dependencies": {
-    "browserify": "^11.2.0"
+    "browserify": "^11.2.0",
+    "uglify-js": "^2.4.24"
   },
   "scripts": {
-  	"build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/js && browserify js/controller.js > build/site-dev/js/app.js -d"
+    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/js && browserify js/controller.js > build/site-dev/js/app.js -d",
+    "build": "rm -rf build/site && mkdir -p build/site/js && browserify js/controller.js | uglifyjs > build/site/js/app.js"
   }
 }
