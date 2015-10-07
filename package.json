@@ -1,0 +1,6 @@
+{
+  "name": "music-server",
+  "version": "0.1.0",
+  "description": "A means of serving music files over a local network, and a web app to control playback.",
+  "author": "Ap0c"
+}
