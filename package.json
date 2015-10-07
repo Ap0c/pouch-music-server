@@ -5,5 +5,8 @@
   "author": "Ap0c",
   "dependencies": {
     "browserify": "^11.2.0"
+  },
+  "scripts": {
+  	"build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/js && browserify js/controller.js > build/site-dev/js/app.js -d"
   }
 }
