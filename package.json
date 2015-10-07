@@ -8,7 +8,9 @@
     "uglify-js": "^2.4.24"
   },
   "scripts": {
-    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/js && browserify js/controller.js > build/site-dev/js/app.js -d",
-    "build": "rm -rf build/site && mkdir -p build/site/js && browserify js/controller.js | uglifyjs > build/site/js/app.js"
+    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/js && browserify js/controller.js > build/site-dev/js/app.js -d && cp html/index.html build/site-dev",
+    "build": "rm -rf build/site && mkdir -p build/site/js && browserify js/controller.js | uglifyjs > build/site/js/app.js && cp html/index.html build/site",
+	"serve-dev": "npm run build-dev && cd build/site-dev && python3 -m http.server",
+	"serve": "npm run build && cd build/site && python3 -m http.server"
   }
 }
