@@ -1,0 +1,27 @@
+/* ----- General ----- */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body {
+	font-family: HelveticaNeue-Thin, sans-serif;
+}
+
+
+/* ----- Navigator ----- */
+
+#navigator {
+	height: 90%;
+	background-color: #eee;
+}
+
+
+/* ----- Now Playing ----- */
+
+#nowplaying {
+	height: 10%;
+	background-color: #aaa;
+}
