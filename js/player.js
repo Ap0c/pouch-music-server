@@ -1,19 +1,57 @@
+// ----- Requires ----- //
+
+var EventEmitter = require('events');
+
+
 // ----- Exports ----- //
 
-exports.play = function play () {
+module.exports = function Player () {
+
+	// ----- Setup ----- //
+
+	var nowPlaying = new Audio();
+	var player = new EventEmitter();
+
+	nowPlaying.addEventListener('ended', function emitEnded () {
+		player.emit('songended');
+	});
+
+
+	// ----- Functions ----- //
 
 	// Resumes playback of current song.
+	player.play = function play () {
 
-};
+		if (nowPlaying.paused) {
+			nowPlaying.play();
+		}
 
-exports.pause = function pause () {
+	};
 
 	// Pauses playback of current song.
+	player.pause = function pause () {
 
-};
+		if (!nowPlaying.paused) {
+			nowPlaying.pause();
+		}
 
-exports.newSong = function newSong (song) {
+	};
 
 	// Loads a new song into the player.
+	player.newSong = function newSong (song) {
+
+		if (song.url) {
+			nowPlaying = new Audio(song.url);
+		} else {
+			throw Error('No song url.');
+		}
+
+	};
+
+
+	// ----- Constructor ----- //
+
+	return player;
+
 
 };
