@@ -11,6 +11,13 @@ body {
 }
 
 
+/* ----- Player ----- */
+
+audio {
+	display: none;
+}
+
+
 /* ----- Navigator ----- */
 
 #navigator {
