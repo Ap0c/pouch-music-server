@@ -1,16 +1,16 @@
 // ----- Exports ----- //
 
-exports.getNext = function getNext () {
+exports.next = function next () {
 
 	// Returns next song in up next playlist, or null. Also fires 'new-playing'
-	// event.
+	// event and updates current song.
 
 };
 
-exports.getPrev = function getPrev () {
+exports.prev = function prev () {
 
 	// Returns previous song in up next playlist, or null. Also fires
-	// 'new-playing' event.
+	// 'new-playing' event and updates current song.
 
 };
 
