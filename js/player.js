@@ -12,14 +12,8 @@ exports.pause = function pause () {
 
 };
 
-exports.next = function next () {
+exports.newSong = function newSong (song) {
 
-	// Retrieves next song from models module and begins playback.
-
-};
-
-exports.prev = function prev () {
-
-	// Retrieves previous song from models module and begins playback.
+	// Loads a new song into the player.
 
 };
