@@ -40,8 +40,8 @@ module.exports = function Player () {
 	// Loads a new song into the player.
 	player.newSong = function newSong (song) {
 
-		if (song.url) {
-			nowPlaying = new Audio(song.url);
+		if (song) {
+			nowPlaying.src = song;
 		} else {
 			throw Error('No song url.');
 		}
@@ -52,6 +52,5 @@ module.exports = function Player () {
 	// ----- Constructor ----- //
 
 	return player;
-
 
 };
