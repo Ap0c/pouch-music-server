@@ -32,11 +32,14 @@ module.exports = function Views () {
 
 	// ----- Exported Functions ----- //
 
-	// Takes a list of items and displays them in the nav.
+	// Takes an array of items and displays them in the nav.
 	views.navList = function navList (listItems) {
 
 		var navContent = new DocumentFragment();
 		var listTemplate = document.getElementById('list-item');
+
+		var unorderedList = document.createElement('ul');
+		navContent.appendChild(unorderedList);
 
 		for (var item of listItems) {
 
@@ -44,7 +47,7 @@ module.exports = function Views () {
 			listItem.textContent = item;
 
 			var row = document.importNode(listTemplate.content, true);
-			navContent.appendChild(row);
+			unorderedList.appendChild(row);
 
 		}
 

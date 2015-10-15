@@ -16,6 +16,18 @@ body {
 #navigator {
 	height: 90%;
 	background-color: #eee;
+	overflow-y: scroll;
+}
+
+#navigator > ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#navigator > ul > li {
+	box-sizing: border-box;
+	padding: 1% 2%;
 }
 
 
