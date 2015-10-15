@@ -9,7 +9,8 @@
     "build": "rm -rf build/site && mkdir -p build/site/js && browserify js/controller.js | uglifyjs > build/site/js/app.js && cp html/index.html build/site && cp -r css build/site",
     "serve-dev": "npm run build-dev && cd build/site-dev && http-server",
     "serve": "npm run build && cd build/site && http-server",
-    "test": "rm -rf test/build && mkdir test/build && browserify test/testplayer.js > test/build/testplayer.js && open test/test.html"
+    "buildtests": "browserify test/testplayer.js test/testviews.js > test/build/tests.js",
+    "test": "rm -rf test/build && mkdir test/build && npm run buildtests && open test/test.html"
   },
   "devDependencies": {
     "browserify": "^11.2.0",

@@ -6,16 +6,26 @@
 <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
 </head>
 	<body>
+
 		<div id="mocha"></div>
+		<section id="navigator"></section>
+		<template id="nav-list-template">
+			<ul class="nav-list"></ul>
+		</template>
+		<template id="list-item-template">
+			<li class="nav-list-item"></li>
+		</template>
+
 		<script src="../node_modules/mocha/mocha.js"></script>
 		<script src="../node_modules/chai/chai.js"></script>
 		<script>
 			mocha.ui('bdd');
 			expect = chai.expect;
 		</script>
-		<script src="build/testplayer.js"></script>
+		<script type="text/javascript" src="build/tests.js"></script>
 		<script>
 			mocha.run();
 		</script>
+
 	</body>
 </html>
