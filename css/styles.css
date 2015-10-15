@@ -19,13 +19,13 @@ body {
 	overflow-y: scroll;
 }
 
-#navigator > ul {
+#navigator > .nav-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-#navigator > ul > li {
+#navigator > .nav-list > li {
 	box-sizing: border-box;
 	padding: 1% 2%;
 }

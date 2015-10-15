@@ -35,23 +35,23 @@ module.exports = function Views () {
 	// Takes an array of items and displays them in the nav.
 	views.navList = function navList (listItems) {
 
-		var navContent = new DocumentFragment();
-		var listTemplate = document.getElementById('list-item');
+		var listTemplate = document.getElementById('nav-list-template');
+		var listItemTemplate = document.getElementById('list-item-template');
 
-		var unorderedList = document.createElement('ul');
-		navContent.appendChild(unorderedList);
+		var list = listTemplate.content.querySelector('ul');
 
 		for (var item of listItems) {
 
-			var listItem = listTemplate.content.querySelector('li');
+			var listItem = listItemTemplate.content.querySelector('li');
 			listItem.textContent = item;
 
-			var row = document.importNode(listTemplate.content, true);
-			unorderedList.appendChild(row);
+			var row = document.importNode(listItemTemplate.content, true);
+			list.appendChild(row);
 
 		}
 
 		clearNav();
+		var navContent = document.importNode(listTemplate.content, true);
 		nav.appendChild(navContent);
 
 	};
