@@ -1,6 +1,7 @@
 // ----- Requires ----- //
 
 var Player = require('./player');
+var Views = require('./views');
 
 
 // ----- Functions ----- //
@@ -9,11 +10,8 @@ function setup () {
 
 	console.log('DOM Ready');
 
-	player = Player();
-
-	var song = { url: 'media/Greensleeves.mp3' };
-	player.newSong(song);
-	player.play();
+	views = Views();
+	views.navList(['one', 'two', 'three']);
 
 }
 

@@ -1,37 +1,91 @@
+// ----- Requires ----- //
+
+var EventEmitter = require('events');
+
+
 // ----- Exports ----- //
 
-exports.navList = function navList (listItems) {
+module.exports = function Views () {
 
-	// Display listItems in list view.
+	// ----- Setup ----- //
 
-};
+	var views = new EventEmitter();
 
-exports.navArtist = function navArtist (artist) {
 
-	// Display artist view.
+	// ----- DOM Objects ----- //
 
-};
+	var nav = document.getElementById('navigator');
+	var nowPlaying = document.getElementById('now-playing');
 
-exports.navAlbum = function navAlbum (album) {
 
-	// Display album view.
+	// ----- Functions ----- //
 
-};
+	// Removes the contents of the nav area.
+	function clearNav () {
 
-exports.playerOverlay = function playerOverlay () {
+		while (nav.firstChild) {
+			nav.removeChild(nav.firstChild);
+		}
 
-	// Bring up player overlay.
+	}
 
-};
 
-exports.menuOverlay = function menuOverlay () {
+	// ----- Exported Functions ----- //
 
-	// Bring up menu overlay.
+	// Takes a list of items and displays them in the nav.
+	views.navList = function navList (listItems) {
 
-};
+		var navContent = new DocumentFragment();
+		var listTemplate = document.getElementById('list-item');
 
-exports.updateNowPlaying = function updateNowPlaying (song, upNext) {
+		for (var item of listItems) {
 
-	// Update song information in now playing bar and player overlay.
+			var listItem = listTemplate.content.querySelector('li');
+			listItem.textContent = item;
+
+			var row = document.importNode(listTemplate.content, true);
+			navContent.appendChild(row);
+
+		}
+
+		clearNav();
+		nav.appendChild(navContent);
+
+	};
+
+	views.navArtist = function navArtist (artist) {
+
+		// Display artist view.
+
+	};
+
+	views.navAlbum = function navAlbum (album) {
+
+		// Display album view.
+
+	};
+
+	views.playerOverlay = function playerOverlay () {
+
+		// Bring up player overlay.
+
+	};
+
+	views.menuOverlay = function menuOverlay () {
+
+		// Bring up menu overlay.
+
+	};
+
+	views.updateNowPlaying = function updateNowPlaying (song, upNext) {
+
+		// Update song information in now playing bar and player overlay.
+
+	};
+
+
+	// ----- Constructor ----- //
+
+	return views;
 
 };

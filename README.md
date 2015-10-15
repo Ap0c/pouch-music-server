@@ -29,3 +29,11 @@ Production:
 ```
 npm run serve
 ```
+
+## Test
+
+To run tests:
+
+```
+npm test
+```
