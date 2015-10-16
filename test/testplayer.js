@@ -19,7 +19,7 @@ describe('Tests the player module.', function () {
 
 	it('Should load a new song.', function () {
 
-		player.newSong('../media/Greensleeves.mp3');
+		player.newSong('/static/media/Greensleeves.mp3');
 
 	});
 
@@ -32,7 +32,7 @@ describe('Tests the player module.', function () {
 
 	it('Should emit the songended event', function (done) {
 
-		player.newSong('../media/Greensleeves-short.m4a');
+		player.newSong('/static/media/Greensleeves-short.m4a');
 
 		player.on('songended', function () {
 			done();

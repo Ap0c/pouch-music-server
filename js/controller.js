@@ -2,7 +2,7 @@
 
 var Player = require('./player');
 var Views = require('./views');
-var models = require('./models');
+var Models = require('./models');
 
 
 // ----- Functions ----- //
@@ -11,7 +11,8 @@ function setup () {
 
 	console.log('DOM Ready');
 
-	views = Views();
+	var views = Views();
+	var models = Models();
 	views.navList(['one', 'two', 'three']);
 
 }

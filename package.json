@@ -13,8 +13,9 @@
     "build": "rm -rf build/site && mkdir -p build/site/static/js && browserify js/controller.js > build/site/static/js/app.js && cp html/index.html build/site && cp -r css build/site/static && cp server.js build/site",
     "serve-dev": "npm run build-dev && cd build/site-dev && node server.js",
     "serve": "npm run build && cd build/site && node server.js",
-    "buildtests": "browserify test/testplayer.js test/testviews.js > test/build/tests.js",
-    "test": "rm -rf test/build && mkdir test/build && npm run buildtests && open test/test.html"
+    "buildtests": "browserify test/testplayer.js test/testviews.js > test/build/static/tests.js",
+    "copytests": "cp test/test.html test/build/index.html && cp server.js test/build/server.js && cp node_modules/chai/chai.js node_modules/mocha/{mocha.css,mocha.js} test/build/static && cp -r media test/build/static",
+    "test": "rm -rf test/build && mkdir -p test/build/{static,media} && npm run buildtests && npm run copytests && cd test/build && open http://localhost:3000 && node server.js"
   },
   "devDependencies": {
     "browserify": "^11.2.0",
