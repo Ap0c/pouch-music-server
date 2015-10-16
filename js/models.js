@@ -1,3 +1,13 @@
+// ----- Requires ----- //
+
+var PouchDB = require('pouchdb');
+
+
+// ----- Setup ----- //
+
+var db = new PouchDB(location.protocol + '//' + location.host + '/db/music-db');
+
+
 // ----- Exports ----- //
 
 exports.next = function next () {

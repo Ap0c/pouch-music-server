@@ -2,6 +2,7 @@
 
 var Player = require('./player');
 var Views = require('./views');
+var models = require('./models');
 
 
 // ----- Functions ----- //
