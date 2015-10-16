@@ -1,37 +1,74 @@
 // ----- Requires ----- //
 
 var PouchDB = require('pouchdb');
+var EventEmitter = require('events');
 
 
-// ----- Setup ----- //
+// ----- Module Exports ----- //
 
-var db = new PouchDB(location.protocol + '//' + location.host + '/db/music-db');
+module.exports = function Models () {
+
+	// ----- Setup ----- //
+
+	var musicDB = location.protocol + '//' + location.host + '/db/music-db';
+	var music = new PouchDB(musicDB);
+	var upNext = [];
+	var nowPlaying = 0;
+
+	var models = new EventEmitter();
 
 
-// ----- Exports ----- //
+	// ----- Exports ----- //
 
-exports.next = function next () {
-
-	// Returns next song in up next playlist, or null. Also fires 'new-playing'
+	// Moves to next song in up next playlist, or null. Also fires 'new-playing'
 	// event and updates current song.
+	models.next = function next () {
 
-};
+		if (nowPlaying + 1 < upNext.length) {
 
-exports.prev = function prev () {
+			nowPlaying += 1;
+			models.emit('new-playing');
 
-	// Returns previous song in up next playlist, or null. Also fires
+		}
+
+	};
+
+	// Moves to previous song in up next playlist, or null. Also fires
 	// 'new-playing' event and updates current song.
+	models.prev = function prev () {
 
-};
+		if (nowPlaying > 0) {
 
-exports.upNext = function upNext () {
+			nowPlaying -= 1;
+			models.emit('new-playing');
 
-	// Returns a list of song in the up next playlist.
+		}
 
-};
+	};
 
-exports.nowPlaying = function nowPlaying () {
+	// Returns a list of songs in the up next playlist.
+	models.upNext = function upNext () {
+
+		return upNext.slice(nowPlaying + 1);
+
+	};
 
 	// Returns the currently playing song.
+	models.nowPlaying = function nowPlaying () {
+
+		return upNext[nowPlaying];
+
+	};
+
+	// Adds songs to the up next playlist, if clear is true, empties it first.
+	models.addSongs = function addSongs (songs, clear) {
+
+		if (clear) {
+			upNext = songs;
+		} else {
+			upNext = upNext.concat(songs);
+		}
+
+	};
 
 };
