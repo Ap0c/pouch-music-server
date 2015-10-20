@@ -18,6 +18,24 @@ module.exports = function Models () {
 	var models = new EventEmitter();
 
 
+	// ----- Functions ----- //
+
+	// Adds the collection of songs from the database to the up next playlist.
+	function addSongsResult (result, clear) {
+
+		if (clear) {
+			upNext = [];
+			nowPlaying = 0;
+		}
+
+		for (var row of result.rows) {
+			delete row.doc._rev;
+			upNext.push(row.doc);
+		}
+
+	}
+
+
 	// ----- Exports ----- //
 
 	// Moves to next song in up next playlist, or null. Also fires 'new-playing'
@@ -70,12 +88,23 @@ module.exports = function Models () {
 	// Adds songs to the up next playlist, if clear is true, empties it first.
 	models.addSongs = function addSongs (songs, clear) {
 
-		if (clear) {
-			upNext = songs;
-			nowPlaying = 0;
-		} else {
-			upNext = upNext.concat(songs);
-		}
+		return new Promise(function (resolve, reject) {
+
+			music.allDocs({
+
+				keys: songs,
+				include_docs: true
+
+			}).then(function (result) {
+
+				addSongsResult(result, clear);
+				resolve();
+
+			}).catch(function (err) {
+				reject(err);
+			});
+
+		});
 
 	};
 

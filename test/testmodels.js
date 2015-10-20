@@ -1,119 +1,212 @@
 // ----- Requires ----- //
 
 var Models = require('../js/models.js');
+var PouchDB = require('pouchdb');
 
 
 // ----- Tests ----- //
 
 describe('Tests the models module.', function () {
 
-	it('Should add songs to the playlist without errors', function () {
+	var songs = [
+		{
+			'_id': '1',
+			'name': 'Space Oddity',
+			'artist': 'David Bowie',
+			'album': 'David Bowie',
+			'number': 1
+		},
+		{
+			'_id': '2',
+			'name': 'Killer Queen',
+			'artist': 'Queen',
+			'album': 'Sheer Heart Attack',
+			'number': 2
+		},
+		{
+			'_id': '3',
+			'name': 'Hysteria',
+			'artist': 'Muse',
+			'album': 'Absolution',
+			'number': 8
+		},
+		{
+			'_id': '4',
+			'name': 'Money',
+			'artist': 'Pink Floyd',
+			'album': 'Dark Side of the Moon',
+			'number': 6
+		},
+		{
+			'_id': '5',
+			'name': 'Fake Plastic Trees',
+			'artist': 'Radiohead',
+			'album': 'The Bends',
+			'number': 4
+		},
+		{
+			'_id': '6',
+			'name': 'Californication',
+			'artist': 'Red Hot Chili Peppers',
+			'album': 'Californication',
+			'number': 6
+		}
+	];
 
-		var models = Models();
-		models.addSongs([1, 2, 3]);
+	before(function (done) {
+
+		var musicDB = location.protocol + '//' + location.host + '/db/music-db';
+		var music = new PouchDB(musicDB);
+
+		music.bulkDocs(songs).then(function (result) {
+			done();
+		}).catch(done);
 
 	});
 
-	it('Should retrieve the list of songs up next', function () {
+	it('Should add songs to the playlist without errors.', function (done) {
 
 		var models = Models();
-		models.addSongs([1, 2, 3]);
-
-		var upNext = models.upNext();
-		expect(upNext).to.eql([2, 3]);
+		models.addSongs([1, 2, 3]).then(done).catch(done);
 
 	});
 
-	it('Should retrieve the currently playing song', function () {
+	it('Should retrieve the list of songs up next.', function (done) {
 
 		var models = Models();
-		models.addSongs([1, 2, 3]);
 
-		var nowPlaying = models.nowPlaying();
-		expect(nowPlaying).to.equal(1);
+		models.addSongs([1, 2, 3]).then(function () {
+
+			var upNext = models.upNext();
+			var expected = songs.slice(1, 3);
+
+			expect(upNext).to.eql(expected);
+			done();
+
+		}).catch(done);
 
 	});
 
-	it('Should skip to the next song in the playlist', function (done) {
+	it('Should retrieve the currently playing song.', function (done) {
 
 		var models = Models();
-		models.addSongs([1, 2, 3]);
+		models.addSongs([1, 2, 3]).then(function () {
+
+			var nowPlaying = models.nowPlaying();
+			expect(nowPlaying).to.eql(songs[0]);
+			done();
+
+		}).catch(done);
+
+	});
+
+	it('Should skip to the next song in the playlist.', function (done) {
+
+		var models = Models();
 
 		models.on('new-playing', function () {
 
 			var nowPlaying = models.nowPlaying();
 			var upNext = models.upNext();
 
-			expect(nowPlaying).to.equal(2);
-			expect(upNext).to.eql([3]);
+			expect(nowPlaying).to.eql(songs[1]);
+			expect(upNext).to.eql(songs.slice(2, 3));
 			done();
 
 		});
 
-		models.next();
+		models.addSongs([1, 2, 3]).then(function () {
+			models.next();
+		}).catch(done);
 
 	});
 
-	it('Should skip to the previous song in the playlist', function (done) {
+	it('Should skip to the previous song in the playlist.', function (done) {
 
 		var models = Models();
-		models.addSongs([1, 2, 3]);
-		models.next();
 
-		models.on('new-playing', function () {
+		models.addSongs([1, 2, 3]).then(function () {
 
-			var nowPlaying = models.nowPlaying();
+			models.next();
+
+			models.on('new-playing', function () {
+
+				var nowPlaying = models.nowPlaying();
+				var upNext = models.upNext();
+
+				expect(nowPlaying).to.eql(songs[0]);
+				expect(upNext).to.eql(songs.slice(1, 3));
+				done();
+
+			});
+
+			models.prev();
+
+		}).catch(done);
+
+	});
+
+	it('Should add multiple sets of songs to up next playlist.', function (done) {
+
+		var models = Models();
+
+		models.addSongs([1, 2, 3]).then(function () {
+
+			models.addSongs([4, 5, 6]).then(function () {
+
+				var upNext = models.upNext();
+				expect(upNext).to.eql(songs.slice(1));
+
+				done();
+
+			});
+
+		}).catch(done);
+
+	});
+
+	it('Should clear the up next playlist and add new songs to it.', function (done) {
+
+		var models = Models();
+
+		models.addSongs([1, 2, 3]).then(function () {
+
+			models.next();
+			models.addSongs([4, 5, 6], true).then(function () {
+
+				var upNext = models.upNext();
+				var nowPlaying = models.nowPlaying();
+
+				expect(upNext).to.eql(songs.slice(4));
+				expect(nowPlaying).to.eql(songs[3]);
+
+				done();
+
+			});
+
+		}).catch(done);
+
+	});
+
+	it('Should produce null results when up next playlist reaches end', function (done) {
+
+		var models = Models();
+
+		models.addSongs([1]).then(function () {
+
 			var upNext = models.upNext();
+			expect(upNext).to.eql([]);
 
-			expect(nowPlaying).to.equal(1);
-			expect(upNext).to.eql([2, 3]);
+			models.next();
+			upNext = models.upNext();
+			var nowPlaying = models.nowPlaying();
+
+			expect(upNext).to.eql([]);
+			expect(nowPlaying).to.equal(null);
+
 			done();
 
-		});
-
-		models.prev();
-
-	});
-
-	it('Should add multiple sets of songs to up next playlist', function () {
-
-		var models = Models();
-		models.addSongs([1, 2, 3]);
-		models.addSongs([4, 5, 6]);
-
-		var upNext = models.upNext();
-		expect(upNext).to.eql([2, 3, 4, 5, 6]);
-
-	});
-
-	it('Should clear the up next playlist and add new songs to it', function () {
-
-		var models = Models();
-		models.addSongs([1, 2, 3]);
-		models.next();
-		models.addSongs([4, 5, 6], true);
-
-		var upNext = models.upNext();
-		var nowPlaying = models.nowPlaying();
-		expect(upNext).to.eql([5, 6]);
-		expect(nowPlaying).to.equal(4);
-
-	});
-
-	it('Should produce null results when up next playlist reaches end', function () {
-
-		var models = Models();
-		models.addSongs([1]);
-
-		var upNext = models.upNext();
-		expect(upNext).to.eql([]);
-
-		models.next();
-		upNext = models.upNext();
-		var nowPlaying = models.nowPlaying();
-
-		expect(upNext).to.eql([]);
-		expect(nowPlaying).to.equal(null);
+		}).catch(done);
 
 	});
 
