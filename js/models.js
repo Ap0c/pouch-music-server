@@ -54,7 +54,7 @@ module.exports = function Models () {
 	};
 
 	// Returns the currently playing song.
-	models.nowPlaying = function nowPlaying () {
+	models.nowPlaying = function currentlyPlaying () {
 
 		if (nowPlaying < upNext.length) {
 			return upNext[nowPlaying];
