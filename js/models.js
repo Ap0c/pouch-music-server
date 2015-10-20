@@ -47,7 +47,7 @@ module.exports = function Models () {
 	};
 
 	// Returns a list of songs in the up next playlist.
-	models.upNext = function upNext () {
+	models.upNext = function upComing () {
 
 		return upNext.slice(nowPlaying + 1);
 
@@ -56,7 +56,11 @@ module.exports = function Models () {
 	// Returns the currently playing song.
 	models.nowPlaying = function nowPlaying () {
 
-		return upNext[nowPlaying];
+		if (nowPlaying < upNext.length) {
+			return upNext[nowPlaying];
+		} else {
+			return null;
+		}
 
 	};
 
@@ -70,5 +74,9 @@ module.exports = function Models () {
 		}
 
 	};
+
+	// ----- Exports ----- //
+
+	return models;
 
 };
