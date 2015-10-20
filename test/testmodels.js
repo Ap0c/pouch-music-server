@@ -75,4 +75,46 @@ describe('Tests the models module.', function () {
 
 	});
 
+	it('Should add multiple sets of songs to up next playlist', function () {
+
+		var models = Models();
+		models.addSongs([1, 2, 3]);
+		models.addSongs([4, 5, 6]);
+
+		var upNext = models.upNext();
+		expect(upNext).to.eql([2, 3, 4, 5, 6]);
+
+	});
+
+	it('Should clear the up next playlist and add new songs to it', function () {
+
+		var models = Models();
+		models.addSongs([1, 2, 3]);
+		models.next();
+		models.addSongs([4, 5, 6], true);
+
+		var upNext = models.upNext();
+		var nowPlaying = models.nowPlaying();
+		expect(upNext).to.eql([5, 6]);
+		expect(nowPlaying).to.equal(4);
+
+	});
+
+	it('Should produce null results when up next playlist reaches end', function () {
+
+		var models = Models();
+		models.addSongs([1]);
+
+		var upNext = models.upNext();
+		expect(upNext).to.eql([]);
+
+		models.next();
+		upNext = models.upNext();
+		var nowPlaying = models.nowPlaying();
+
+		expect(upNext).to.eql([]);
+		expect(nowPlaying).to.equal(null);
+
+	});
+
 });

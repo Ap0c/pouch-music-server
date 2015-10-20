@@ -24,10 +24,13 @@ module.exports = function Models () {
 	// event and updates current song.
 	models.next = function next () {
 
-		if (nowPlaying + 1 < upNext.length) {
+		if (nowPlaying < upNext.length) {
 
 			nowPlaying += 1;
-			models.emit('new-playing');
+
+			if (nowPlaying < upNext.length) {
+				models.emit('new-playing');
+			}
 
 		}
 
@@ -69,6 +72,7 @@ module.exports = function Models () {
 
 		if (clear) {
 			upNext = songs;
+			nowPlaying = 0;
 		} else {
 			upNext = upNext.concat(songs);
 		}
