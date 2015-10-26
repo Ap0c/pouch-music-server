@@ -17,6 +17,7 @@
 		</template>
 		<!-- Artist Templates -->
 		<template id="artist-template">
+			<button class="back-button"></button>
 			<h2 class="artist-name">Artist Name</h2>
 			<button class="play-all">Play All</button>
 			<button class="add-all">Add All</button>
@@ -27,7 +28,7 @@
 			<ol class="album-songs"></ol>
 		</template>
 		<template id="album-song-template">
-			<li class="album-song"></li>
+			<li class="album-song"><span class="song-name"></span><button class="add-song">+</button></li>
 		</template>
 
 		<script src="static/mocha.js"></script>

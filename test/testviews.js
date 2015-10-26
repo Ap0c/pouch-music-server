@@ -59,18 +59,21 @@ describe('Tests the views module.', function () {
 
 		views.navArtist(testArtist);
 
-		expect(nav.childElementCount).to.equal(4);
-		expect(nav.children[0].tagName).to.equal('H2');
-		expect(nav.children[0].textContent).to.equal('Artist One');
-		expect(nav.children[1].classList[0]).to.equal('play-all');
-		expect(nav.children[2].classList[0]).to.equal('add-all');
-		expect(nav.children[3].classList[0]).to.equal('album-list');
+		expect(nav.childElementCount).to.equal(5);
+		expect(nav.children[0].tagName).to.equal('BUTTON');
+		expect(nav.children[1].tagName).to.equal('H2');
+		expect(nav.children[1].textContent).to.equal('Artist One');
+		expect(nav.children[2].classList[0]).to.equal('play-all');
+		expect(nav.children[3].classList[0]).to.equal('add-all');
+		expect(nav.children[4].classList[0]).to.equal('album-list');
 
 		var albumList = nav.querySelector('.album-list');
 
 		expect(albumList.childElementCount).to.equal(4);
+		expect(albumList.children[0].textContent).to.equal('Album One');
 		expect(albumList.children[0].classList[0]).to.equal('artist-album-name');
 		expect(albumList.children[1].classList[0]).to.equal('album-songs');
+		expect(albumList.children[2].textContent).to.equal('Album Two');
 		expect(albumList.children[2].classList[0]).to.equal('artist-album-name');
 		expect(albumList.children[3].classList[0]).to.equal('album-songs');
 
@@ -79,6 +82,12 @@ describe('Tests the views module.', function () {
 
 		expect(firstAlbum.childElementCount).to.equal(3);
 		expect(secondAlbum.childElementCount).to.equal(3);
+
+		var firstSong = firstAlbum.children[0];
+
+		expect(firstSong.childElementCount).to.equal(2);
+		expect(firstSong.children[0].classList[0]).to.equal('song-name');
+		expect(firstSong.children[1].classList[0]).to.equal('add-song');
 
 	});
 

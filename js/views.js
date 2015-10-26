@@ -47,10 +47,9 @@ module.exports = function Views () {
 		for (var song of songs) {
 
 			var songTemplate = importTemplate('album-song-template');
-			var songName = songTemplate.querySelector('.album-song');
 
-			songName.textContent = song.name;
-			songName.value = song.number;
+			songTemplate.querySelector('.song-name').textContent = song.name;
+			songTemplate.querySelector('.album-song').value = song.number;
 
 			list.appendChild(songTemplate);
 
