@@ -41,6 +41,42 @@ module.exports = function Views () {
 
 	}
 
+	// Fills out a list of songs within an album view.
+	function populateSongs (songs, list) {
+
+		for (var song of songs) {
+
+			var songTemplate = importTemplate('album-song-template');
+			var songName = songTemplate.querySelector('.album-song');
+
+			songName.textContent = song.name;
+			songName.value = song.number;
+
+			list.appendChild(songTemplate);
+
+		}
+
+	}
+
+	// Fills out a list of albums within an artist view.
+	function populateAlbums (albums, list) {
+
+		for (var album of albums) {
+
+			var albumTemplate = importTemplate('artist-album-template');
+
+			var albumName = albumTemplate.querySelector('.artist-album-name');
+			albumName.textContent = album.name;
+
+			var songList = albumTemplate.querySelector('.album-songs');
+			populateSongs(album.songs, songList);
+
+			list.appendChild(albumTemplate);
+
+		}
+
+	}
+
 
 	// ----- Exported Functions ----- //
 
@@ -73,31 +109,7 @@ module.exports = function Views () {
 		artistName.textContent = artist.name;
 
 		var albumList = artistTemplate.querySelector('.album-list');
-
-		for (var album of artist.albums) {
-
-			var albumTemplate = importTemplate('artist-album-template');
-
-			var albumName = albumTemplate.querySelector('.artist-album-name');
-			albumName.textContent = album.name;
-
-			var songList = albumTemplate.querySelector('.album-songs');
-
-			for (var song of album.songs) {
-
-				var songTemplate = importTemplate('album-song-template');
-				var songName = songTemplate.querySelector('.album-song');
-
-				songName.textContent = song.name;
-				songName.value = song.number;
-
-				songList.appendChild(songTemplate);
-
-			}
-
-			albumList.appendChild(albumTemplate);
-
-		}
+		populateAlbums(artist.albums, albumList);
 
 		updateNav(artistTemplate);
 
