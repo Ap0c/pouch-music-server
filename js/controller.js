@@ -35,8 +35,8 @@ function setup () {
 			}
 		],
 	};
-	views.navArtist(artist);
-	views.navList(['one', 'two']);
+	// views.navArtist(artist);
+	// views.navList(['one', 'two']);
 	views.navArtist(artist);
 
 }

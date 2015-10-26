@@ -20,12 +20,24 @@ module.exports = function Views () {
 
 	// ----- Functions ----- //
 
-	// Removes the contents of the nav area.
-	function clearNav () {
+	// Removes the contents of the nav area and replaces with new content.
+	function updateNav (newContent) {
 
 		while (nav.firstChild) {
 			nav.removeChild(nav.firstChild);
 		}
+
+		nav.appendChild(newContent);
+
+	}
+
+	// Imports a template into the document and returns the resulting node.
+	function importTemplate(templateID) {
+
+		var template = document.getElementById(templateID);
+		var templateNode = document.importNode(template.content, true);
+
+		return templateNode;
 
 	}
 
@@ -35,69 +47,59 @@ module.exports = function Views () {
 	// Takes an array of items and displays them in the nav.
 	views.navList = function navList (listItems) {
 
-		var listTemplate = document.getElementById('nav-list-template');
-		var listItemTemplate = document.getElementById('list-item-template');
-
-		var list = listTemplate.content.querySelector('ul');
+		var listTemplate = importTemplate('nav-list-template');
+		var list = listTemplate.querySelector('ul');
 
 		for (var item of listItems) {
 
-			var listItem = listItemTemplate.content.querySelector('li');
+			var listItemTemplate = importTemplate('list-item-template');
+			var listItem = listItemTemplate.querySelector('li');
 			listItem.textContent = item;
 
-			var row = document.importNode(listItemTemplate.content, true);
-			list.appendChild(row);
+			list.appendChild(listItemTemplate);
 
 		}
 
-		clearNav();
-		var navContent = document.importNode(listTemplate.content, true);
-		nav.appendChild(navContent);
+		updateNav(listTemplate);
 
 	};
 
 	// Takes an object with info about the artist and displays it in the nav.
 	views.navArtist = function navArtist (artist) {
 
-		var artistTemplate = document.getElementById('artist-template');
-		var albumTemplate = document.getElementById('artist-album-template');
-		var songTemplate = document.getElementById('album-song-template');
+		var artistTemplate = importTemplate('artist-template');
 
-		var artistNode = document.importNode(artistTemplate.content, true);
-
-		var artistName = artistNode.querySelector('.artist-name');
+		var artistName = artistTemplate.querySelector('.artist-name');
 		artistName.textContent = artist.name;
 
-		var albumList = artistNode.querySelector('.album-list');
+		var albumList = artistTemplate.querySelector('.album-list');
 
 		for (var album of artist.albums) {
 
-			var albumNode = document.importNode(albumTemplate.content, true);
+			var albumTemplate = importTemplate('artist-album-template');
 
-			var albumName = albumNode.querySelector('.artist-album-name');
+			var albumName = albumTemplate.querySelector('.artist-album-name');
 			albumName.textContent = album.name;
 
-			var songList = albumNode.querySelector('.album-songs');
-			console.log(songList);
+			var songList = albumTemplate.querySelector('.album-songs');
 
 			for (var song of album.songs) {
 
-				var songName = songTemplate.content.querySelector('.album-song');
+				var songTemplate = importTemplate('album-song-template');
+				var songName = songTemplate.querySelector('.album-song');
+
 				songName.textContent = song.name;
 				songName.value = song.number;
 
-				var songNode = document.importNode(songTemplate.content, true);
-				console.log(songNode);
-				songList.appendChild(songNode);
+				songList.appendChild(songTemplate);
 
 			}
 
-			albumList.appendChild(albumNode);
+			albumList.appendChild(albumTemplate);
 
 		}
 
-		clearNav();
-		nav.appendChild(artistNode);
+		updateNav(artistTemplate);
 
 	};
 
