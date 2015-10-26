@@ -99,7 +99,7 @@ module.exports = function Views () {
 
 	};
 
-	// Takes an object with info about the artist and displays it in the nav.
+	// Takes an object with info about an artist and displays it in the nav.
 	views.navArtist = function navArtist (artist) {
 
 		var artistTemplate = importTemplate('artist-template');
@@ -114,9 +114,18 @@ module.exports = function Views () {
 
 	};
 
+	// Takes an object with info about an album and displays it in the nav.
 	views.navAlbum = function navAlbum (album) {
 
-		// Display album view.
+		var albumTemplate = importTemplate('album-template');
+
+		var albumName = albumTemplate.querySelector('.album-name');
+		albumName.textContent = album.name;
+
+		var songList = albumTemplate.querySelector('.album-songs');
+		populateSongs(album.songs, songList);
+
+		updateNav(albumTemplate);
 
 	};
 

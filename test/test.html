@@ -9,15 +9,21 @@
 
 		<div id="mocha"></div>
 		<section id="navigator"></section>
+
+		<!-- Nav List Templates -->
 		<template id="nav-list-template">
 			<ul class="nav-list"></ul>
 		</template>
 		<template id="list-item-template">
 			<li class="nav-list-item"></li>
 		</template>
+		<!-- Song Template -->
+		<template id="album-song-template">
+			<li class="album-song"><span class="song-name"></span><button class="add-song">+</button></li>
+		</template>
 		<!-- Artist Templates -->
 		<template id="artist-template">
-			<button class="back-button"></button>
+			<button class="back-button">&lt;</button>
 			<h2 class="artist-name">Artist Name</h2>
 			<button class="play-all">Play All</button>
 			<button class="add-all">Add All</button>
@@ -27,10 +33,16 @@
 			<h3 class="artist-album-name">Album Name</h3>
 			<ol class="album-songs"></ol>
 		</template>
-		<template id="album-song-template">
-			<li class="album-song"><span class="song-name"></span><button class="add-song">+</button></li>
+		<!-- Album Template -->
+		<template id="album-template">
+			<button class="back-button">&lt;</button>
+			<h2 class="album-name">Album Name</h2>
+			<button class="play-all">Play All</button>
+			<button class="add-all">Add All</button>
+			<ol class="album-songs"></section>
 		</template>
 
+		<!-- Test Scripts -->
 		<script src="static/mocha.js"></script>
 		<script src="static/chai.js"></script>
 		<script>
