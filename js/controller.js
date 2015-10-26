@@ -13,7 +13,8 @@ function setup () {
 
 	var views = Views();
 	var models = Models();
-	views.navList(['one', 'two', 'three']);
+	// views.navList(['one', 'two', 'three']);
+	views.navArtist({ name: 'Artist One', 'albums': []});
 
 }
 

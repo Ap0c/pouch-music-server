@@ -56,9 +56,17 @@ module.exports = function Views () {
 
 	};
 
+	// Takes an object with info about the artist and displays it in the nav.
 	views.navArtist = function navArtist (artist) {
 
-		// Display artist view.
+		var artistTemplate = document.getElementById('artist-template');
+		var artistName = artistTemplate.content.querySelector('.artist-name');
+		
+		artistName.textContent = artist.name;
+
+		clearNav();
+		var navContent = document.importNode(artistTemplate.content, true);
+		nav.appendChild(navContent);
 
 	};
 
