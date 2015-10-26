@@ -23,6 +23,9 @@ function setup () {
 		]
 	};
 
+	var song = { name: 'Song One', artist: 'Artist One', album: 'Album One' };
+
+	views.updateNowPlaying(song);
 	views.navAlbum(album);
 
 }

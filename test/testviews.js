@@ -36,6 +36,12 @@ var testAlbum = {
 	]
 };
 
+var testSong = {
+	name: 'Song One',
+	artist: 'Artist One',
+	album: 'Album One'
+};
+
 
 // ----- Tests ----- //
 
@@ -43,6 +49,7 @@ describe('Tests the views module.', function () {
 
 	var views = Views();
 	var nav = document.getElementById('navigator');
+	var nowPlaying = document.getElementById('now-playing');
 
 	afterEach(function () {
 
@@ -139,6 +146,20 @@ describe('Tests the views module.', function () {
 		expect(firstSong.childElementCount).to.equal(2);
 		expect(firstSong.children[0].classList[0]).to.equal('song-name');
 		expect(firstSong.children[1].classList[0]).to.equal('add-song');
+
+	});
+
+	it('Should update the now playing information.', function () {
+
+		views.updateNowPlaying(testSong);
+
+		var song = nowPlaying.querySelector('#now-playing-song');
+		var artist = nowPlaying.querySelector('#now-playing-artist');
+		var album = nowPlaying.querySelector('#now-playing-album');
+
+		expect(song.textContent).to.equal('Song One');
+		expect(artist.textContent).to.equal('Artist One');
+		expect(album.textContent).to.equal('Album One');
 
 	});
 

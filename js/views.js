@@ -141,9 +141,16 @@ module.exports = function Views () {
 
 	};
 
+	// Updates song information in now playing bar and player overlay.
 	views.updateNowPlaying = function updateNowPlaying (song, upNext) {
 
-		// Update song information in now playing bar and player overlay.
+		var songName = nowPlaying.querySelector('#now-playing-song');
+		var songArtist = nowPlaying.querySelector('#now-playing-artist');
+		var songAlbum = nowPlaying.querySelector('#now-playing-album');
+
+		songName.textContent = song.name;
+		songArtist.textContent = song.artist;
+		songAlbum.textContent = song.album;
 
 	};
 
