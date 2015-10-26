@@ -60,13 +60,44 @@ module.exports = function Views () {
 	views.navArtist = function navArtist (artist) {
 
 		var artistTemplate = document.getElementById('artist-template');
-		var artistName = artistTemplate.content.querySelector('.artist-name');
-		
+		var albumTemplate = document.getElementById('artist-album-template');
+		var songTemplate = document.getElementById('album-song-template');
+
+		var artistNode = document.importNode(artistTemplate.content, true);
+
+		var artistName = artistNode.querySelector('.artist-name');
 		artistName.textContent = artist.name;
 
+		var albumList = artistNode.querySelector('.album-list');
+
+		for (var album of artist.albums) {
+
+			var albumNode = document.importNode(albumTemplate.content, true);
+
+			var albumName = albumNode.querySelector('.artist-album-name');
+			albumName.textContent = album.name;
+
+			var songList = albumNode.querySelector('.album-songs');
+			console.log(songList);
+
+			for (var song of album.songs) {
+
+				var songName = songTemplate.content.querySelector('.album-song');
+				songName.textContent = song.name;
+				songName.value = song.number;
+
+				var songNode = document.importNode(songTemplate.content, true);
+				console.log(songNode);
+				songList.appendChild(songNode);
+
+			}
+
+			albumList.appendChild(albumNode);
+
+		}
+
 		clearNav();
-		var navContent = document.importNode(artistTemplate.content, true);
-		nav.appendChild(navContent);
+		nav.appendChild(artistNode);
 
 	};
 
