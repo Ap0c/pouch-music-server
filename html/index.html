@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
 <head>
 <meta c="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>House Music</title>
 <link rel="stylesheet" type="text/css" href="static/css/dialog-polyfill.css">
 <link rel="stylesheet" type="text/css" href="static/css/styles.css">
@@ -9,6 +10,7 @@
 <script type="text/javascript" src="static/js/app.js"></script>
 </head>
 <body>
+
 	<section id="navigator"></section>
 	<section id="now-playing">
 		<button id="play">Play</button>
@@ -50,5 +52,14 @@
 		<button class="add-all">Add All</button>
 		<ol class="album-songs"></section>
 	</template>
+
+	<!-- Dialogs -->
+	<dialog id="menu-overlay">
+		<h2>Choose Library</h2>
+		<h2>Artists</h2>
+		<h2>Albums</h2>
+		<h2>Songs</h2>
+	</dialog>
+
 </body>
 </html>

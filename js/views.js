@@ -7,15 +7,19 @@ var EventEmitter = require('events');
 
 module.exports = function Views () {
 
-	// ----- Setup ----- //
-
-	var views = new EventEmitter();
-
-
 	// ----- DOM Objects ----- //
 
 	var nav = document.getElementById('navigator');
 	var nowPlaying = document.getElementById('now-playing');
+	var menu = document.getElementById('menu-overlay');
+
+
+	// ----- Setup ----- //
+
+	var views = new EventEmitter();
+
+	dialogPolyfill.registerDialog(menu);
+	menu.addEventListener('click', closeDialog);
 
 
 	// ----- Functions ----- //
@@ -72,6 +76,20 @@ module.exports = function Views () {
 
 			list.appendChild(albumTemplate);
 
+		}
+
+	}
+
+	// Checks if the user clicks outside a dialog, and closes it if so.
+	function closeDialog (click) {
+
+		var area = click.target.getBoundingClientRect();
+		var outsideDialog = area.top > click.clientY ||
+			area.bottom < click.clientY || area.left > click.clientX ||
+			area.right < click.clientX;
+
+		if (outsideDialog) {
+			click.target.close();
 		}
 
 	}
@@ -135,10 +153,14 @@ module.exports = function Views () {
 
 	};
 
+	// Brings up the menu overlay.
 	views.menuOverlay = function menuOverlay () {
+		menu.showModal();
+	};
 
-		// Bring up menu overlay.
-
+	// Closes the menu overlay.
+	views.closeMenu = function closeMenu () {
+		menu.close();
 	};
 
 	// Updates song information in now playing bar and player overlay.
