@@ -4,13 +4,16 @@
   "description": "A means of serving music files over a local network, and a web app to control playback.",
   "author": "Ap0c",
   "dependencies": {
+    "dialog-polyfill": "^0.4.2",
     "express": "^4.13.3",
     "express-pouchdb": "^1.0.0",
     "pouchdb": "^5.0.0"
   },
   "scripts": {
-    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/static/js && browserify js/controller.js > build/site-dev/static/js/app.js -d && cp html/index.html build/site-dev && cp -r css build/site-dev/static && cp server.js build/site-dev",
-    "build": "rm -rf build/site && mkdir -p build/site/static/js && browserify js/controller.js > build/site/static/js/app.js && cp html/index.html build/site && cp -r css build/site/static && cp server.js build/site",
+    "copy-assets-dev": "cp html/index.html build/site-dev && cp -r css build/site-dev/static && cp server.js build/site-dev && cp node_modules/dialog-polyfill/dialog-polyfill.js build/site-dev/static/js && cp node_modules/dialog-polyfill/dialog-polyfill.css build/site-dev/static/css",
+    "copy-assets": "cp html/index.html build/site && cp -r css build/site/static && cp server.js build/site && cp node_modules/dialog-polyfill/dialog-polyfill.js build/site/static/js && cp node_modules/dialog-polyfill/dialog-polyfill.css build/site/static/css",
+    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/static/js && browserify js/controller.js > build/site-dev/static/js/app.js -d && npm run copy-assets-dev",
+    "build": "rm -rf build/site && mkdir -p build/site/static/js && browserify js/controller.js > build/site/static/js/app.js && npm run copy-assets",
     "serve-dev": "npm run build-dev && cd build/site-dev && node server.js",
     "serve": "npm run build && cd build/site && node server.js",
     "buildtests": "browserify test/testplayer.js test/testviews.js test/testmodels.js > test/build/static/tests.js",
