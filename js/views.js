@@ -24,9 +24,6 @@ module.exports = function Views () {
 	dialogPolyfill.registerDialog(player);
 
 	var playerClose = document.getElementById('close-player-overlay');
-	playerClose.addEventListener('click', function closePlayer () {
-		player.close();
-	});
 
 
 	// ----- Functions ----- //
@@ -101,6 +98,36 @@ module.exports = function Views () {
 
 	}
 
+	// Clears the list of songs up next in the player overlay.
+	function clearUpNext (upNext) {
+
+		while (upNext.firstChild) {
+			upNext.removeChild(upNext.firstChild);
+		}
+
+	}
+
+	// Displays the list of songs up next in the player overlay.
+	function listUpNext (songs) {
+
+		var upNext = document.getElementById('up-next');
+		var list = document.createDocumentFragment();
+
+		for (var song of songs) {
+
+			var listItemTemplate = importTemplate('player-upnext-template');
+			var listItem = listItemTemplate.querySelector('li');
+
+			listItem.textContent = song.name;
+			list.appendChild(listItem);
+
+		}
+
+		clearUpNext(upNext);
+		upNext.appendChild(list);
+
+	}
+
 
 	// ----- Exported Functions ----- //
 
@@ -155,7 +182,7 @@ module.exports = function Views () {
 	};
 
 	// Brings up the player overlay.
-	views.playerOverlay = function playerOverlay (current, upNext) {
+	views.playerOverlay = function playerOverlay () {
 		player.showModal();
 	};
 
@@ -172,13 +199,23 @@ module.exports = function Views () {
 	// Updates song information in now playing bar and player overlay.
 	views.updateNowPlaying = function updateNowPlaying (song, upNext) {
 
-		var songName = nowPlaying.querySelector('#now-playing-song');
-		var songArtist = nowPlaying.querySelector('#now-playing-artist');
-		var songAlbum = nowPlaying.querySelector('#now-playing-album');
+		var songName = document.querySelectorAll('.now-playing-song');
+		var songArtist = document.querySelectorAll('.now-playing-artist');
+		var songAlbum = document.querySelectorAll('.now-playing-album');
 
-		songName.textContent = song.name;
-		songArtist.textContent = song.artist;
-		songAlbum.textContent = song.album;
+		for (var i = songName.length - 1; i >= 0; i--) {
+			songName[i].textContent = song.name;
+		}
+
+		for (var j = songArtist.length - 1; j >= 0; j--) {
+			songArtist[j].textContent = song.artist;
+		}
+
+		for (var k = songAlbum.length - 1; k >= 0; k--) {
+			songAlbum[k].textContent = song.album;
+		}
+
+		listUpNext(upNext);
 
 	};
 
