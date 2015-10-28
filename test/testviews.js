@@ -316,4 +316,52 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit choose-lib event on menu click.', function (done) {
+
+		var chooseLib = document.getElementById('choose-library');
+
+		views.on('menu: choose-lib', function menuClicked () {
+			done();
+		});
+
+		chooseLib.click();
+
+	});
+
+	it('Should emit artists event on menu click.', function (done) {
+
+		var viewArtists = document.getElementById('view-artists');
+
+		views.on('menu: artists', function menuClicked () {
+			done();
+		});
+
+		viewArtists.click();
+
+	});
+
+	it('Should emit albums event on menu click.', function (done) {
+
+		var viewAlbums = document.getElementById('view-albums');
+
+		views.on('menu: albums', function menuClicked () {
+			done();
+		});
+
+		viewAlbums.click();
+
+	});
+
+	it('Should emit songs event on menu click.', function (done) {
+
+		var viewSongs = document.getElementById('view-songs');
+
+		views.on('menu: songs', function menuClicked () {
+			done();
+		});
+
+		viewSongs.click();
+
+	});
+
 });

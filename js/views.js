@@ -27,11 +27,12 @@ module.exports = function Views () {
 
 	// Sets up view event emitters.
 	playbackEvents();
+	menuEvents();
 
 
 	// ----- Functions ----- //
 
-	// Sets up player button events.
+	// Sets up playback button events.
 	function playbackEvents () {
 
 		var play = document.getElementById('play');
@@ -47,6 +48,21 @@ module.exports = function Views () {
 		overlayPause.addEventListener('click', emitEvent('pause'));
 		previous.addEventListener('click', emitEvent('previous'));
 		next.addEventListener('click', emitEvent('next'));
+
+	}
+
+	// Sets up menu selection events.
+	function menuEvents () {
+
+		var chooseLibrary = document.getElementById('choose-library');
+		var viewArtists = document.getElementById('view-artists');
+		var viewAlbums = document.getElementById('view-albums');
+		var viewSongs = document.getElementById('view-songs');
+
+		chooseLibrary.addEventListener('click', emitEvent('menu: choose-lib'));
+		viewArtists.addEventListener('click', emitEvent('menu: artists'));
+		viewAlbums.addEventListener('click', emitEvent('menu: albums'));
+		viewSongs.addEventListener('click', emitEvent('menu: songs'));
 
 	}
 
