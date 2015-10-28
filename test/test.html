@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <title>Title</title>
+<link rel="stylesheet" type="text/css" href="static/dialog-polyfill.css">
 <link rel="stylesheet" href="static/mocha.css" />
+<script type="text/javascript" src="static/dialog-polyfill.js"></script>
 </head>
 	<body>
 
@@ -49,6 +51,13 @@
 			<button class="add-all">Add All</button>
 			<ol class="album-songs"></section>
 		</template>
+		<!-- Dialogs -->
+		<dialog id="menu-overlay">
+			<h2>Choose Library</h2>
+			<h2>Artists</h2>
+			<h2>Albums</h2>
+			<h2>Songs</h2>
+		</dialog>
 
 		<!-- Test Scripts -->
 		<script src="static/mocha.js"></script>

@@ -50,11 +50,16 @@ describe('Tests the views module.', function () {
 	var views = Views();
 	var nav = document.getElementById('navigator');
 	var nowPlaying = document.getElementById('now-playing');
+	var menu = document.getElementById('menu-overlay');
 
 	afterEach(function () {
 
 		while (nav.firstChild) {
 			nav.removeChild(nav.firstChild);
+		}
+
+		if (menu.open) {
+			menu.close();
 		}
 
 	});
@@ -160,6 +165,25 @@ describe('Tests the views module.', function () {
 		expect(song.textContent).to.equal('Song One');
 		expect(artist.textContent).to.equal('Artist One');
 		expect(album.textContent).to.equal('Album One');
+
+	});
+
+	it('Should open the menu dialog.', function () {
+
+		expect(menu.open).to.be.false;
+
+		views.menuOverlay();
+		expect(menu.open).to.be.true;
+
+	});
+
+	it('Should close the menu dialog.', function () {
+
+		views.menuOverlay();
+		expect(menu.open).to.be.true;
+
+		views.closeMenu();
+		expect(menu.open).to.false;
 
 	});
 
