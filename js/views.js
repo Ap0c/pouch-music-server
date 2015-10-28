@@ -7,6 +7,16 @@ var EventEmitter = require('events');
 
 module.exports = function Views () {
 
+	// ----- Internal Properties ----- //
+
+	// Types available for the list view, and corresponding click events.
+	var listTypes = {
+		artist: 'view-artist',
+		album: 'view-album',
+		song: 'play-song'
+	};
+
+
 	// ----- DOM Objects ----- //
 
 	var nav = document.getElementById('navigator');
@@ -67,10 +77,10 @@ module.exports = function Views () {
 	}
 
 	// Creates a function to emit a view event.
-	function emitEvent (eventName) {
+	function emitEvent (eventName, data) {
 
 		return function viewsEmit () {
-			views.emit(eventName);
+			views.emit(eventName, data);
 		};
 
 	}
@@ -175,22 +185,45 @@ module.exports = function Views () {
 
 	}
 
+	// Retrieves the event fired on click for a given type of list.
+	function listClickEvent (listType) {
+
+		if (listType in listTypes) {
+			return listTypes[listType];
+		} else {
+			throw new Error('Unrecognised list type: ' + listType);
+		}
+
+	}
+
+	// Creates an item in the list view, including click event listener.
+	function createListItem (info, viewEvent) {
+
+		var listItemTemplate = importTemplate('list-item-template');
+		var listItem = listItemTemplate.querySelector('li');
+
+		listItem.textContent = info.name;
+		listItem.addEventListener('click', emitEvent(viewEvent, info));
+
+		return listItem;
+
+	}
+
 
 	// ----- Exported Functions ----- //
 
 	// Takes an array of items and displays them in the nav.
-	views.navList = function navList (listItems) {
+	views.navList = function navList (listItems, listType) {
+
+		var clickEvent = listClickEvent(listType);
 
 		var listTemplate = importTemplate('nav-list-template');
 		var list = listTemplate.querySelector('ul');
 
 		for (var item of listItems) {
 
-			var listItemTemplate = importTemplate('list-item-template');
-			var listItem = listItemTemplate.querySelector('li');
-			listItem.textContent = item;
-
-			list.appendChild(listItemTemplate);
+			var listItem = createListItem(item, clickEvent);
+			list.appendChild(listItem);
 
 		}
 

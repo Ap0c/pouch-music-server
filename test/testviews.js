@@ -5,6 +5,12 @@ var Views = require('../js/views.js');
 
 // ----- Setup ----- //
 
+var testList = [
+	{ name: 'Artist One' },
+	{ name: 'Artist Two' },
+	{ name: 'Artist Three' }
+];
+
 var testArtist = {
 	name: 'Artist One',
 	albums: [
@@ -77,13 +83,13 @@ describe('Tests the views module.', function () {
 
 	it('Should create a new nav list with three elements.', function () {
 
-		views.navList(['one', 'two', 'three']);
+		views.navList(testList, 'artist');
 		var navList = nav.firstElementChild;
 
 		// Checks that the list has been inserted correctly.
 		expect(navList.tagName).to.equal('UL');
 		expect(navList.firstElementChild.tagName).to.equal('LI');
-		expect(navList.firstElementChild.textContent).to.equal('one');
+		expect(navList.firstElementChild.textContent).to.equal('Artist One');
 		expect(navList.children.length).to.equal(3);
 
 	});
