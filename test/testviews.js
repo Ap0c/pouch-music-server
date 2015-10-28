@@ -244,4 +244,76 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit play event on play click.', function (done) {
+
+		var playButton = document.getElementById('play');
+
+		views.on('play', function playClicked () {
+			done();
+		});
+
+		playButton.click();
+
+	});
+
+	it('Should emit play event on overlay play click.', function (done) {
+
+		var overlayPlayButton = document.getElementById('overlay-play');
+
+		views.on('play', function overlayPlayClicked () {
+			done();
+		});
+
+		overlayPlayButton.click();
+
+	});
+
+	it('Should emit pause event on pause click.', function (done) {
+
+		var pauseButton = document.getElementById('pause');
+
+		views.on('pause', function pauseClicked () {
+			done();
+		});
+
+		pauseButton.click();
+
+	});
+
+	it('Should emit pause event on overlay pause click.', function (done) {
+
+		var overlayPauseButton = document.getElementById('overlay-pause');
+
+		views.on('pause', function overlayPauseClicked () {
+			done();
+		});
+
+		overlayPauseButton.click();
+
+	});
+
+	it('Should emit previous event on previous click.', function (done) {
+
+		var previousButton = document.getElementById('previous');
+
+		views.on('previous', function previousClicked () {
+			done();
+		});
+
+		previousButton.click();
+
+	});
+
+	it('Should emit next event on next click.', function (done) {
+
+		var nextButton = document.getElementById('next');
+
+		views.on('next', function nextClicked () {
+			done();
+		});
+
+		nextButton.click();
+
+	});
+
 });
