@@ -17,16 +17,47 @@ module.exports = function Views () {
 
 	// ----- Setup ----- //
 
+	// Allows the views object to emit events.
 	var views = new EventEmitter();
 
+	// Sets up dialog polyfills.
 	dialogPolyfill.registerDialog(menu);
 	menu.addEventListener('click', closeDialog);
 	dialogPolyfill.registerDialog(player);
 
-	var playerClose = document.getElementById('close-player-overlay');
+	// Sets up view event emitters.
+	playbackEvents();
 
 
 	// ----- Functions ----- //
+
+	// Sets up player button events.
+	function playbackEvents () {
+
+		var play = document.getElementById('play');
+		var overlayPlay = document.getElementById('overlay-play');
+		var pause = document.getElementById('pause');
+		var overlayPause = document.getElementById('overlay-pause');
+		var previous = document.getElementById('previous');
+		var next = document.getElementById('next');
+
+		play.addEventListener('click', emitEvent('play'));
+		overlayPlay.addEventListener('click', emitEvent('play'));
+		pause.addEventListener('click', emitEvent('pause'));
+		overlayPause.addEventListener('click', emitEvent('pause'));
+		previous.addEventListener('click', emitEvent('previous'));
+		next.addEventListener('click', emitEvent('next'));
+
+	}
+
+	// Creates a function to emit a view event.
+	function emitEvent (eventName) {
+
+		return function viewsEmit () {
+			views.emit(eventName);
+		};
+
+	}
 
 	// Removes the contents of the nav area and replaces with new content.
 	function updateNav (newContent) {
