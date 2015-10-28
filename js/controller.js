@@ -13,8 +13,7 @@ function setup () {
 
 	var views = Views();
 
-	views.menuOverlay();
-	views.closeMenu();
+	views.playerOverlay();
 
 }
 

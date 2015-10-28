@@ -12,6 +12,7 @@ module.exports = function Views () {
 	var nav = document.getElementById('navigator');
 	var nowPlaying = document.getElementById('now-playing');
 	var menu = document.getElementById('menu-overlay');
+	var player = document.getElementById('player-overlay');
 
 
 	// ----- Setup ----- //
@@ -20,6 +21,12 @@ module.exports = function Views () {
 
 	dialogPolyfill.registerDialog(menu);
 	menu.addEventListener('click', closeDialog);
+	dialogPolyfill.registerDialog(player);
+
+	var playerClose = document.getElementById('close-player-overlay');
+	playerClose.addEventListener('click', function closePlayer () {
+		player.close();
+	});
 
 
 	// ----- Functions ----- //
@@ -147,10 +154,9 @@ module.exports = function Views () {
 
 	};
 
-	views.playerOverlay = function playerOverlay () {
-
-		// Bring up player overlay.
-
+	// Brings up the player overlay.
+	views.playerOverlay = function playerOverlay (current, upNext) {
+		player.showModal();
 	};
 
 	// Brings up the menu overlay.
