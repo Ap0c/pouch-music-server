@@ -186,6 +186,11 @@ module.exports = function Views () {
 		player.showModal();
 	};
 
+	// Closes the player overlay.
+	views.closePlayer = function closePlayer () {
+		player.close();
+	};
+
 	// Brings up the menu overlay.
 	views.menuOverlay = function menuOverlay () {
 		menu.showModal();

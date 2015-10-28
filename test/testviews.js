@@ -42,6 +42,12 @@ var testSong = {
 	album: 'Album One'
 };
 
+var testUpNext = [
+	{ 'name': 'Song One' },
+	{ 'name': 'Song Two' },
+	{ 'name': 'Song Three' }
+];
+
 
 // ----- Tests ----- //
 
@@ -51,6 +57,7 @@ describe('Tests the views module.', function () {
 	var nav = document.getElementById('navigator');
 	var nowPlaying = document.getElementById('now-playing');
 	var menu = document.getElementById('menu-overlay');
+	var player = document.getElementById('player-overlay');
 
 	afterEach(function () {
 
@@ -60,6 +67,10 @@ describe('Tests the views module.', function () {
 
 		if (menu.open) {
 			menu.close();
+		}
+
+		if (player.open) {
+			player.close();
 		}
 
 	});
@@ -156,7 +167,7 @@ describe('Tests the views module.', function () {
 
 	it('Should update the now playing information.', function () {
 
-		views.updateNowPlaying(testSong);
+		views.updateNowPlaying(testSong, []);
 
 		var song = nowPlaying.querySelector('.now-playing-song');
 		var artist = nowPlaying.querySelector('.now-playing-artist');
@@ -184,6 +195,52 @@ describe('Tests the views module.', function () {
 
 		views.closeMenu();
 		expect(menu.open).to.false;
+
+	});
+
+	it('Should open the player dialog.', function () {
+
+		expect(player.open).to.be.false;
+
+		views.playerOverlay();
+		expect(player.open).to.be.true;
+
+	});
+
+	it('Should close the player dialog.', function () {
+
+		views.playerOverlay();
+		expect(player.open).to.be.true;
+
+		views.closePlayer();
+		expect(player.open).to.false;
+
+	});
+
+	it('Should update now playing in player overlay.', function () {
+
+		var songName = player.querySelector('.now-playing-song');
+		var songArtist = player.querySelector('.now-playing-artist');
+		var songAlbum = player.querySelector('.now-playing-album');
+
+		views.updateNowPlaying(testSong, []);
+
+		expect(songName.textContent).to.equal('Song One');
+		expect(songArtist.textContent).to.equal('Artist One');
+		expect(songAlbum.textContent).to.equal('Album One');
+
+	});
+
+	it('Should update up next in player overlay.', function () {
+
+		views.updateNowPlaying(testSong, testUpNext);
+
+		var upNext = document.getElementById('up-next');
+		var songList = upNext.querySelectorAll('li');
+
+		expect(songList[0].textContent).to.equal('Song One');
+		expect(songList[1].textContent).to.equal('Song Two');
+		expect(songList[2].textContent).to.equal('Song Three');
 
 	});
 

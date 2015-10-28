@@ -14,9 +14,9 @@
 		<section id="now-playing" style="display: none">
 			<button id="play">Play</button>
 			<button id="pause">Pause</button>
-			<span id="now-playing-song">-</span>
-			<span id="now-playing-artist">-</span>
-			<span id="now-playing-album">-</span>
+			<span class="now-playing-song">-</span>
+			<span class="now-playing-artist">-</span>
+			<span class="now-playing-album">-</span>
 			<button id="popup-menu">^</button>
 		</section>
 
@@ -51,12 +51,28 @@
 			<button class="add-all">Add All</button>
 			<ol class="album-songs"></section>
 		</template>
+		<!-- Player Template -->
+		<template id="player-upnext-template">
+			<li class="upnext-item"></li>
+		</template>
+
 		<!-- Dialogs -->
 		<dialog id="menu-overlay">
 			<h2>Choose Library</h2>
 			<h2>Artists</h2>
 			<h2>Albums</h2>
 			<h2>Songs</h2>
+		</dialog>
+		<dialog id="player-overlay">
+			<button id="close-player-overlay">X</button>
+			<h2 class="now-playing-song">-</h2>
+			<h2 class="now-playing-artist">-</h2>
+			<h2 class="now-playing-album">-</h2>
+			<button id="previous">&lt;&lt;</button>
+			<button id="overlay-play">Play</button>
+			<button id="overlay-pause">Pause</button>
+			<button id="next">&gt;&gt;</button>
+			<ul id="up-next"></ul>
 		</dialog>
 
 		<!-- Test Scripts -->
