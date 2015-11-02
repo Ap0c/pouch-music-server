@@ -5,10 +5,22 @@ var Views = require('../js/views.js');
 
 // ----- Setup ----- //
 
-var testList = [
+var testListArtist = [
 	{ name: 'Artist One' },
 	{ name: 'Artist Two' },
 	{ name: 'Artist Three' }
+];
+
+var testListAlbum = [
+	{ name: 'Album One' },
+	{ name: 'Album Two' },
+	{ name: 'Album Three' }
+];
+
+var testListSong = [
+	{ name: 'Song One' },
+	{ name: 'Song Two' },
+	{ name: 'Song Three' }
 ];
 
 var testArtist = {
@@ -83,7 +95,7 @@ describe('Tests the views module.', function () {
 
 	it('Should create a new nav list with three elements.', function () {
 
-		views.navList(testList, 'artist');
+		views.navList(testListArtist, 'artist');
 		var navList = nav.firstElementChild;
 
 		// Checks that the list has been inserted correctly.
@@ -367,6 +379,52 @@ describe('Tests the views module.', function () {
 		});
 
 		viewSongs.click();
+
+	});
+
+	it('Should emit view-artist event with data on click.', function (done) {
+
+		views.navList(testListArtist, 'artist');
+
+		views.on('view-artist', function (info) {
+			expect(info.name).to.equal('Artist One');
+			done();
+		});
+
+		nav.firstElementChild.firstElementChild.click();
+
+	});
+
+	it('Should emit view-album event with data on click.', function (done) {
+
+		views.navList(testListAlbum, 'album');
+
+		views.on('view-album', function (info) {
+			expect(info.name).to.equal('Album One');
+			done();
+		});
+
+		nav.firstElementChild.firstElementChild.click();
+
+	});
+
+	it('Should emit play-song event with data on click.', function (done) {
+
+		views.navList(testListSong, 'song');
+
+		views.on('play-song', function (info) {
+			expect(info.name).to.equal('Song One');
+			done();
+		});
+
+		nav.firstElementChild.firstElementChild.click();
+
+	});
+
+	it('Should throw error for incorrect list type.', function () {
+
+		expect(views.navList.bind(views.navList, testArtist, 'wrongType'))
+			.to.throw('Unrecognised list type: wrongType');
 
 	});
 
