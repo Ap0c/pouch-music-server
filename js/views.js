@@ -223,6 +223,26 @@ module.exports = function Views () {
 
 	}
 
+	// Sets up the click events for the album view.
+	function albumEvents (template, album, artist) {
+
+		var plyAll = template.querySelector('.play-all');
+		plyAll.addEventListener('click', emitEvent('album: play-all', album));
+
+		var addAll = template.querySelector('.add-all');
+		addAll.addEventListener('click', emitEvent('album: add-all', album));
+
+		var back = template.querySelector('.back-button');
+
+		// Returns either to artist view or album list view.
+		if (artist) {
+			back.addEventListener('click', emitEvent('view-artist', artist));
+		} else {
+			back.addEventListener('click', emitEvent('menu: albums'));
+		}
+
+	}
+
 
 	// ----- Exported Functions ----- //
 
@@ -262,7 +282,7 @@ module.exports = function Views () {
 	};
 
 	// Takes an object with info about an album and displays it in the nav.
-	views.navAlbum = function navAlbum (album) {
+	views.navAlbum = function navAlbum (album, artist) {
 
 		var albumTemplate = importTemplate('album-template');
 
@@ -272,6 +292,7 @@ module.exports = function Views () {
 		var songList = albumTemplate.querySelector('.album-songs');
 		populateSongs(album.songs, songList);
 
+		albumEvents(albumTemplate, album, artist);
 		updateNav(albumTemplate);
 
 	};

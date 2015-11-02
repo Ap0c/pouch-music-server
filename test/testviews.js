@@ -458,11 +458,66 @@ describe('Tests the views module.', function () {
 
 	it('Should emit the artists event from the artist view.', function (done) {
 
-		views.on('menu: artists', function (artist) {
+		views.on('menu: artists', function () {
 			done();
 		});
 
 		views.navArtist(testArtist);
+
+		var backButton = nav.querySelector('.back-button');
+		backButton.click();
+
+	});
+
+	it('Should emit the play-all event from the album view.', function (done) {
+
+		views.on('album: play-all', function (album) {
+			expect(album.name).to.equal('Album One');
+			done();
+		});
+
+		views.navAlbum(testAlbum);
+
+		var playAllButton = nav.querySelector('.play-all');
+		playAllButton.click();
+
+	});
+
+	it('Should emit the add-all event from the album view.', function (done) {
+
+		views.on('album: add-all', function (album) {
+			expect(album.name).to.equal('Album One');
+			done();
+		});
+
+		views.navAlbum(testAlbum);
+
+		var addAllButton = nav.querySelector('.add-all');
+		addAllButton.click();
+
+	});
+
+	it('Should emit the albums event from the album view.', function (done) {
+
+		views.on('menu: albums', function () {
+			done();
+		});
+
+		views.navAlbum(testAlbum);
+
+		var backButton = nav.querySelector('.back-button');
+		backButton.click();
+
+	});
+
+	it('Should emit view-artist event from the album view.', function (done) {
+
+		views.on('view-artist', function (artist) {
+			expect(artist.name).to.equal('Artist One');
+			done();
+		});
+
+		views.navAlbum(testAlbum, testArtist);
 
 		var backButton = nav.querySelector('.back-button');
 		backButton.click();
