@@ -14,6 +14,7 @@ var player = null;
 
 // ----- Functions ----- //
 
+// Hooks up views, models and player to handle playback.
 function playbackHandlers () {
 
 	views.on('play', player.play);
@@ -22,9 +23,34 @@ function playbackHandlers () {
 	views.on('next', models.next);
 	views.on('previous', models.prev);
 
-	models.on('new-playing', function (song) {
+	models.on('new-playing', function playSong (song) {
 		player.newSong(song.url);
 		player.play();
+	});
+
+}
+
+// Updates the views based upon user input.
+function viewHandlers () {
+
+	views.on('view-artist', function displayArtist (artist) {
+		var artistInfo = models.artist(artist.name);
+		views.navArtist(artistInfo);
+	});
+
+	views.on('view-album', function displayAlbum (album) {
+		var albumInfo = models.album(album.name);
+		views.navAlbum(albumInfo);
+	});
+
+	views.on('menu: artists', function viewArtists () {
+		var artists = models.artists();
+		views.navList(artists, 'artist');
+	});
+
+	views.on('menu: albums', function viewAlbums () {
+		var albums = models.albums();
+		views.navList(albums, 'album');
 	});
 
 }
@@ -37,6 +63,7 @@ function setup () {
 	player = Player();
 
 	playbackHandlers();
+	viewHandlers();
 
 }
 
