@@ -524,4 +524,36 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit an add-song event from the album view.', function (done) {
+
+		views.on('add-song', function (song) {
+			expect(song.name).to.equal('Song One');
+			done();
+		});
+
+		views.navAlbum(testAlbum);
+
+		var songOne = nav.querySelector('.album-songs').children[0];
+		var addButton = songOne.querySelector('.add-song');
+
+		addButton.click();
+
+	});
+
+	it.only('Should emit an add-song event from the artist view.', function (done) {
+
+		views.on('add-song', function (song) {
+			expect(song.name).to.equal('Song One');
+			done();
+		});
+
+		views.navArtist(testArtist);
+
+		var songOne = nav.querySelector('.album-songs').children[0];
+		var addButton = songOne.querySelector('.add-song');
+
+		addButton.click();
+
+	});
+
 });

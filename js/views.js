@@ -116,6 +116,9 @@ module.exports = function Views () {
 			songTemplate.querySelector('.song-name').textContent = song.name;
 			songTemplate.querySelector('.album-song').value = song.number;
 
+			var addButton = songTemplate.querySelector('.add-song');
+			addButton.addEventListener('click', emitEvent('add-song', song));
+
 			list.appendChild(songTemplate);
 
 		}
