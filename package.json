@@ -7,7 +7,8 @@
     "dialog-polyfill": "^0.4.2",
     "express": "^4.13.3",
     "express-pouchdb": "^1.0.0",
-    "pouchdb": "^5.0.0"
+    "pouchdb": "^5.0.0",
+    "pouchdb-find": "^0.6.0"
   },
   "scripts": {
     "copy-assets-dev": "cp html/index.html build/site-dev && cp -r css build/site-dev/static && cp server.js build/site-dev && cp node_modules/dialog-polyfill/dialog-polyfill.js build/site-dev/static/js && cp node_modules/dialog-polyfill/dialog-polyfill.css build/site-dev/static/css",

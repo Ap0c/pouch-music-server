@@ -210,4 +210,17 @@ describe('Tests the models module.', function () {
 
 	});
 
+	it('Should produce a list of artists.', function (done) {
+
+		var models = Models();
+		var expectedArtists = ['David Bowie', 'Muse', 'Pink Floyd', 'Queen',
+			'Radiohead', 'Red Hot Chili Peppers'];
+
+		models.artists().then(function (result) {
+			expect(result).to.eql(expectedArtists);
+			done();
+		}).catch(done);
+
+	});
+
 });

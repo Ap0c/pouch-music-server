@@ -1,6 +1,7 @@
 // ----- Requires ----- //
 
 var PouchDB = require('pouchdb');
+PouchDB.plugin(require('pouchdb-find'));
 var EventEmitter = require('events');
 
 
@@ -32,6 +33,17 @@ module.exports = function Models () {
 			delete row.doc._rev;
 			upNext.push(row.doc);
 		}
+
+	}
+
+	// Creates an array with just artist names from a db query.
+	function artistNames (artists) {
+
+		var names = artists.docs.map(function (artist) {
+			return artist.artist;
+		});
+
+		return names;
 
 	}
 
@@ -103,6 +115,29 @@ module.exports = function Models () {
 			}).catch(function (err) {
 				reject(err);
 			});
+
+		});
+
+	};
+
+	// Returns a list of artists.
+	models.artists = function artists () {
+
+		return new Promise(function (resolve, reject) {
+
+			music.createIndex({
+				index: {fields: ['artist']}
+			}).then(function (results) {
+
+				music.find({
+					selector: {artist: {$exists: true}},
+					fields: ['artist'],
+					sort: ['artist']
+				}).then(function (result) {
+					resolve(artistNames(result));
+				}).catch(reject);
+
+			}).catch(reject);
 
 		});
 
