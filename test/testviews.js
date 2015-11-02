@@ -540,7 +540,7 @@ describe('Tests the views module.', function () {
 
 	});
 
-	it.only('Should emit an add-song event from the artist view.', function (done) {
+	it('Should emit an add-song event from the artist view.', function (done) {
 
 		views.on('add-song', function (song) {
 			expect(song.name).to.equal('Song One');

@@ -47,7 +47,7 @@ module.exports = function Models () {
 			nowPlaying += 1;
 
 			if (nowPlaying < upNext.length) {
-				models.emit('new-playing');
+				models.emit('new-playing', upNext[nowPlaying]);
 			}
 
 		}
@@ -61,7 +61,7 @@ module.exports = function Models () {
 		if (nowPlaying > 0) {
 
 			nowPlaying -= 1;
-			models.emit('new-playing');
+			models.emit('new-playing', upNext[nowPlaying]);
 
 		}
 
