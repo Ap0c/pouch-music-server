@@ -10,7 +10,7 @@ module.exports = function Views () {
 	// ----- Internal Properties ----- //
 
 	// Types available for the list view, and corresponding click events.
-	var listTypes = {
+	var listEvents = {
 		artist: 'view-artist',
 		album: 'view-album',
 		song: 'play-song'
@@ -188,8 +188,8 @@ module.exports = function Views () {
 	// Retrieves the event fired on click for a given type of list.
 	function listClickEvent (listType) {
 
-		if (listType in listTypes) {
-			return listTypes[listType];
+		if (listType in listEvents) {
+			return listEvents[listType];
 		} else {
 			throw new Error('Unrecognised list type: ' + listType);
 		}
@@ -206,6 +206,20 @@ module.exports = function Views () {
 		listItem.addEventListener('click', emitEvent(viewEvent, info));
 
 		return listItem;
+
+	}
+
+	// Sets up the click events for the artist view.
+	function artistEvents (template, artist) {
+
+		var plyAll = template.querySelector('.play-all');
+		plyAll.addEventListener('click', emitEvent('artist: play-all', artist));
+
+		var addAll = template.querySelector('.add-all');
+		addAll.addEventListener('click', emitEvent('artist: add-all', artist));
+
+		var back = template.querySelector('.back-button');
+		back.addEventListener('click', emitEvent('menu: artists'));
 
 	}
 
@@ -242,6 +256,7 @@ module.exports = function Views () {
 		var albumList = artistTemplate.querySelector('.album-list');
 		populateAlbums(artist.albums, albumList);
 
+		artistEvents(artistTemplate, artist);
 		updateNav(artistTemplate);
 
 	};

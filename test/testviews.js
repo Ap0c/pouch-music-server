@@ -428,4 +428,45 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit the play-all event from the artist view.', function (done) {
+
+		views.on('artist: play-all', function (artist) {
+			expect(artist.name).to.equal('Artist One');
+			done();
+		});
+
+		views.navArtist(testArtist);
+
+		var playAllButton = nav.querySelector('.play-all');
+		playAllButton.click();
+
+	});
+
+	it('Should emit the add-all event from the artist view.', function (done) {
+
+		views.on('artist: add-all', function (artist) {
+			expect(artist.name).to.equal('Artist One');
+			done();
+		});
+
+		views.navArtist(testArtist);
+
+		var addAllButton = nav.querySelector('.add-all');
+		addAllButton.click();
+
+	});
+
+	it('Should emit the artists event from the artist view.', function (done) {
+
+		views.on('menu: artists', function (artist) {
+			done();
+		});
+
+		views.navArtist(testArtist);
+
+		var backButton = nav.querySelector('.back-button');
+		backButton.click();
+
+	});
+
 });
