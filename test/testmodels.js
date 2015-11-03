@@ -223,4 +223,18 @@ describe('Tests the models module.', function () {
 
 	});
 
+	it('Should produce a list of albums.', function (done) {
+
+		var models = Models();
+		var expectedAlbums = ['Absolution', 'Californication',
+			'Dark Side of the Moon', 'David Bowie', 'Sheer Heart Attack',
+			'The Bends'];
+
+		models.albums().then(function (result) {
+			expect(result).to.eql(expectedAlbums);
+			done();
+		}).catch(done);
+
+	});
+
 });

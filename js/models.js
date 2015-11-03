@@ -36,11 +36,16 @@ module.exports = function Models () {
 
 	}
 
-	// Creates an array with just artist names from a db query.
-	function artistNames (artists) {
+	// Creates an array with just artist/album names from a db query.
+	function reduceNames (result, field) {
 
-		var names = artists.docs.map(function (artist) {
-			return artist.artist;
+		var names = result.docs.filter(function removeDupes (doc, index, arr) {
+
+			var prevDoc = arr[index - 1];
+			return prevDoc ? doc[field] !== prevDoc[field] : true;
+
+		}).map(function retrieveField (doc) {
+			return doc[field];
 		});
 
 		return names;
@@ -134,7 +139,7 @@ module.exports = function Models () {
 					fields: ['artist'],
 					sort: ['artist']
 				}).then(function (result) {
-					resolve(artistNames(result));
+					resolve(reduceNames(result, 'artist'));
 				}).catch(reject);
 
 			}).catch(reject);
@@ -142,6 +147,30 @@ module.exports = function Models () {
 		});
 
 	};
+
+	// Returns a list of albums.
+	models.albums = function albums () {
+
+		return new Promise(function (resolve, reject) {
+
+			music.createIndex({
+				index: {fields: ['album']}
+			}).then(function (results) {
+
+				music.find({
+					selector: {album: {$exists: true}},
+					fields: ['album'],
+					sort: ['album']
+				}).then(function (result) {
+					resolve(reduceNames(result, 'album'));
+				}).catch(reject);
+
+			}).catch(reject);
+
+		});
+
+	};
+
 
 	// ----- Exports ----- //
 
