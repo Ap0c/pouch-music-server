@@ -200,13 +200,13 @@ module.exports = function Views () {
 	}
 
 	// Creates an item in the list view, including click event listener.
-	function createListItem (info, viewEvent) {
+	function createListItem (content, viewEvent) {
 
 		var listItemTemplate = importTemplate('list-item-template');
 		var listItem = listItemTemplate.querySelector('li');
 
-		listItem.textContent = info.name;
-		listItem.addEventListener('click', emitEvent(viewEvent, info));
+		listItem.textContent = content;
+		listItem.addEventListener('click', emitEvent(viewEvent, content));
 
 		return listItem;
 

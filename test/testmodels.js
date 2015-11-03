@@ -61,7 +61,7 @@ var songs = [
 
 // ----- Tests ----- //
 
-describe.only('Tests the models module.', function () {
+describe('Tests the models module.', function () {
 
 	before(function (done) {
 
