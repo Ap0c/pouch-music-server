@@ -50,6 +50,13 @@ describe('Tests the models module.', function () {
 			'artist': 'Red Hot Chili Peppers',
 			'album': 'Californication',
 			'number': 6
+		},
+		{
+			'_id': '7',
+			'name': 'Time Is Running Out',
+			'artist': 'Muse',
+			'album': 'Absolution',
+			'number': 3
 		}
 	];
 
@@ -152,7 +159,7 @@ describe('Tests the models module.', function () {
 
 		models.addSongs([1, 2, 3]).then(function () {
 
-			models.addSongs([4, 5, 6]).then(function () {
+			models.addSongs([4, 5, 6, 7]).then(function () {
 
 				var upNext = models.upNext();
 				expect(upNext).to.eql(songs.slice(1));
@@ -172,7 +179,7 @@ describe('Tests the models module.', function () {
 		models.addSongs([1, 2, 3]).then(function () {
 
 			models.next();
-			models.addSongs([4, 5, 6], true).then(function () {
+			models.addSongs([4, 5, 6, 7], true).then(function () {
 
 				var upNext = models.upNext();
 				var nowPlaying = models.nowPlaying();
@@ -233,6 +240,24 @@ describe('Tests the models module.', function () {
 		models.albums().then(function (result) {
 			expect(result).to.eql(expectedAlbums);
 			done();
+		}).catch(done);
+
+	});
+
+	it('Should retrieve information on a specific album.', function (done) {
+
+		var models = Models();
+		var songList = [{ _id: '7', name: 'Time Is Running Out', number: 3 },
+			{ _id: '3', name: 'Hysteria', number: 8 }];
+
+		models.album('Absolution').then(function (album) {
+
+			expect(album.name).to.equal('Absolution');
+			expect(album.songs.length).to.equal(2);
+			expect(album.songs).to.eql(songList);
+
+			done();
+
 		}).catch(done);
 
 	});

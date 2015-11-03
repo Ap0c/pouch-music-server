@@ -34,12 +34,12 @@ function playbackHandlers () {
 function viewHandlers () {
 
 	views.on('view-artist', function displayArtist (artist) {
-		var artistInfo = models.artist(artist.name);
+		var artistInfo = models.artist(artist);
 		views.navArtist(artistInfo);
 	});
 
 	views.on('view-album', function displayAlbum (album) {
-		var albumInfo = models.album(album.name);
+		var albumInfo = models.album(album);
 		views.navAlbum(albumInfo);
 	});
 

@@ -39,9 +39,9 @@ module.exports = function Models () {
 	// Creates an array with just artist/album names from a db query.
 	function reduceNames (result, field) {
 
-		var names = result.docs.filter(function removeDupes (doc, index, arr) {
+		var names = result.filter(function removeDupes (doc, index, docs) {
 
-			var prevDoc = arr[index - 1];
+			var prevDoc = docs[index - 1];
 			return prevDoc ? doc[field] !== prevDoc[field] : true;
 
 		}).map(function retrieveField (doc) {
@@ -49,6 +49,23 @@ module.exports = function Models () {
 		});
 
 		return names;
+
+	}
+
+	// Sorts songs by the number field, needed due to sort-selector restriction.
+	function sortSongs (songs) {
+
+		return songs.sort(function compare (a, b) {
+
+			if (a.number > b.number) {
+				return 1;
+			} else if (a.number < b.number) {
+				return -1;
+			}
+
+			return 0;
+
+		});
 
 	}
 
@@ -132,14 +149,14 @@ module.exports = function Models () {
 
 			music.createIndex({
 				index: {fields: ['artist']}
-			}).then(function (results) {
+			}).then(function () {
 
 				music.find({
 					selector: {artist: {$exists: true}},
 					fields: ['artist'],
 					sort: ['artist']
 				}).then(function (result) {
-					resolve(reduceNames(result, 'artist'));
+					resolve(reduceNames(result.docs, 'artist'));
 				}).catch(reject);
 
 			}).catch(reject);
@@ -162,7 +179,53 @@ module.exports = function Models () {
 					fields: ['album'],
 					sort: ['album']
 				}).then(function (result) {
-					resolve(reduceNames(result, 'album'));
+					resolve(reduceNames(result.docs, 'album'));
+				}).catch(reject);
+
+			}).catch(reject);
+
+		});
+
+	};
+
+	// Retrieves all available data on an artist.
+	// models.artist = function artist (name) {
+
+	// 	music.createIndex({
+	// 		index: {fields: ['artist']}
+	// 	}).then(function () {
+
+	// 		music.find({
+	// 			selector: {artist: name}
+	// 		}).then(function (result) {
+
+	// 		}).catch(reject);
+
+	// 	});
+
+	// };
+
+	// Retrieves all available data on an album.
+	models.album = function album (name) {
+
+		return new Promise(function (resolve, reject) {
+
+			music.createIndex({
+				index: {fields: ['album']}
+			}).then(function () {
+
+				music.find({
+					selector: {album: name},
+					fields: ['_id', 'name', 'number']
+				}).then(function (result) {
+
+					var songs = sortSongs(result.docs);
+
+					resolve({
+						name: name,
+						songs: songs
+					});
+
 				}).catch(reject);
 
 			}).catch(reject);
