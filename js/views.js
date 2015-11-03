@@ -146,6 +146,9 @@ module.exports = function Views () {
 			var albumName = albumTemplate.querySelector('.artist-album-name');
 			albumName.textContent = album.name;
 
+			var viewAlbum = emitEvent('view-album', album.name);
+			albumName.addEventListener('click', viewAlbum);
+
 			var songList = albumTemplate.querySelector('.album-songs');
 			populateSongs(album.songs, songList);
 
