@@ -562,4 +562,26 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit view-player event on nowPlaying click.', function (done) {
+
+		views.on('view-player', function playerClicked () {
+			done();
+		});
+
+		nowPlaying.click();
+
+	});
+
+	it('Should emit view-menu event on popup-menu click.', function (done) {
+
+		var menuPopup = document.getElementById('popup-menu');
+
+		views.on('view-menu', function popupClicked () {
+			done();
+		});
+
+		menuPopup.click();
+
+	});
+
 });

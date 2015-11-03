@@ -38,6 +38,7 @@ module.exports = function Views () {
 	// Sets up view event emitters.
 	playbackEvents();
 	menuEvents();
+	overlayEvents();
 
 
 	// ----- Functions ----- //
@@ -73,6 +74,16 @@ module.exports = function Views () {
 		viewArtists.addEventListener('click', emitEvent('menu: artists'));
 		viewAlbums.addEventListener('click', emitEvent('menu: albums'));
 		viewSongs.addEventListener('click', emitEvent('menu: songs'));
+
+	}
+
+	// Sets up overlay request events.
+	function overlayEvents () {
+
+		var menuPopup = document.getElementById('popup-menu');
+
+		nowPlaying.addEventListener('click', emitEvent('view-player'));
+		menuPopup.addEventListener('click', emitEvent('view-menu'));
 
 	}
 
