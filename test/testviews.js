@@ -5,6 +5,12 @@ var Views = require('../js/views.js');
 
 // ----- Setup ----- //
 
+var testNavListArtist = [
+	'Artist One',
+	'Artist Two',
+	'Artist Three'
+];
+
 var testListArtist = [
 	{ name: 'Artist One' },
 	{ name: 'Artist Two' },
@@ -95,7 +101,7 @@ describe('Tests the views module.', function () {
 
 	it('Should create a new nav list with three elements.', function () {
 
-		views.navList(testListArtist, 'artist');
+		views.navList(testNavListArtist, 'artist');
 		var navList = nav.firstElementChild;
 
 		// Checks that the list has been inserted correctly.
