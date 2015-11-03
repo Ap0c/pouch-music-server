@@ -31,7 +31,7 @@ function playbackHandlers () {
 
 }
 
-// Updates the views based upon user input.
+// Updates the nav views based upon user input.
 function viewHandlers () {
 
 	views.on('view-artist', function displayArtist (artist) {
@@ -46,6 +46,11 @@ function viewHandlers () {
 		});
 	});
 
+}
+
+// Updates views based upon menu input.
+function menuHandlers () {
+
 	views.on('menu: artists', function viewArtists () {
 		models.artists().then(function (artists) {
 			views.navList(artists, 'artist');
@@ -55,6 +60,12 @@ function viewHandlers () {
 	views.on('menu: albums', function viewAlbums () {
 		models.albums().then(function (albums) {
 			views.navList(albums, 'album');
+		});
+	});
+
+	views.on('menu: songs', function viewSongs () {
+		models.songs().then(function (songs) {
+			views.navList(songs, 'song');
 		});
 	});
 
@@ -78,6 +89,8 @@ function setup () {
 
 	playbackHandlers();
 	viewHandlers();
+	menuHandlers();
+	overlayHandlers();
 
 }
 
