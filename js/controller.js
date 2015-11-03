@@ -60,6 +60,14 @@ function viewHandlers () {
 
 }
 
+function overlayHandlers () {
+
+	views.on('view-player', views.playerOverlay);
+	views.on('close-player', views.closePlayer);
+	views.on('view-menu', views.menuOverlay);
+
+}
+
 // Instantiates the app modules, and sets up handlers for user input.
 function setup () {
 

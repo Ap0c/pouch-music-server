@@ -584,4 +584,16 @@ describe('Tests the views module.', function () {
 
 	});
 
+	it('Should emit close-player event on close click.', function (done) {
+
+		var closePlayer = document.getElementById('close-player-overlay');
+
+		views.on('close-player', function playerClosed () {
+			done();
+		});
+
+		closePlayer.click();
+
+	});
+
 });

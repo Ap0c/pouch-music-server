@@ -80,9 +80,11 @@ module.exports = function Views () {
 	// Sets up overlay request events.
 	function overlayEvents () {
 
+		var closePlayer = document.getElementById('close-player-overlay');
 		var menuPopup = document.getElementById('popup-menu');
 
 		nowPlaying.addEventListener('click', emitEvent('view-player'));
+		closePlayer.addEventListener('click', emitEvent('close-player'));
 		menuPopup.addEventListener('click', emitEvent('view-menu'));
 
 	}
