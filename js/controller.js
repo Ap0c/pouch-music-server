@@ -60,6 +60,7 @@ function viewHandlers () {
 
 }
 
+// Opens and closes overlays based upon user input.
 function overlayHandlers () {
 
 	views.on('view-player', views.playerOverlay);

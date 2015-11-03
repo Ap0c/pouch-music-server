@@ -240,7 +240,7 @@ module.exports = function Models () {
 
 			music.createIndex({
 				index: {fields: ['album']}
-			}).then(function (results) {
+			}).then(function () {
 
 				music.find({
 
@@ -256,6 +256,35 @@ module.exports = function Models () {
 				}).catch(reject);
 
 			}).catch(reject);
+
+		});
+
+	};
+
+	// Returns a list of songs.
+	models.songs = function songs () {
+
+		return new Promise(function (resolve, reject) {
+
+			music.createIndex({
+				index: {fields: ['name']}
+			}).then(function () {
+
+				music.find({
+
+					selector: {name: {$exists: true}},
+					fields: ['_id', 'name'],
+					sort: ['name']
+
+				}).then(function (result) {
+
+					var songList = reduceNames(result.docs, 'name');
+					resolve(songList);
+
+				}).catch(reject);
+
+			}).catch(reject);
+			
 
 		});
 

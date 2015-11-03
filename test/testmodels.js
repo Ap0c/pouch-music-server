@@ -247,6 +247,20 @@ describe('Tests the models module.', function () {
 
 	});
 
+	it('Should produce a list of songs.', function (done) {
+
+		var models = Models();
+		var expectedSongs = ['Californication', 'Fake Plastic Trees',
+			'Hysteria', 'Killer Queen', 'Money', 'Space Oddity',
+			'Time Is Running Out'];
+
+		models.songs().then(function (result) {
+			expect(result).to.eql(expectedSongs);
+			done();
+		}).catch(done);
+
+	});
+
 	it('Should retrieve information on a specific album.', function (done) {
 
 		var models = Models();
