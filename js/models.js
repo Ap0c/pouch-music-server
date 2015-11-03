@@ -108,6 +108,30 @@ module.exports = function Models () {
 
 	}
 
+	// Formats the artist data for return.
+	function formatArtist (name, docset) {
+
+		var albums = sortAlbums(docset);
+
+		return {
+			name: name,
+			albums: albums
+		};
+
+	}
+
+	// Formats the album data for return.
+	function formatAlbum (name, docset) {
+
+		var songs = sortSongs(docset);
+
+		return {
+			name: name,
+			songs: songs
+		};
+
+	}
+
 
 	// ----- Exports ----- //
 
@@ -191,11 +215,16 @@ module.exports = function Models () {
 			}).then(function () {
 
 				music.find({
+
 					selector: {artist: {$exists: true}},
 					fields: ['artist'],
 					sort: ['artist']
+
 				}).then(function (result) {
-					resolve(reduceNames(result.docs, 'artist'));
+
+					var artistList = reduceNames(result.docs, 'artist');
+					resolve(artistList);
+
 				}).catch(reject);
 
 			}).catch(reject);
@@ -214,11 +243,16 @@ module.exports = function Models () {
 			}).then(function (results) {
 
 				music.find({
+
 					selector: {album: {$exists: true}},
 					fields: ['album'],
 					sort: ['album']
+
 				}).then(function (result) {
-					resolve(reduceNames(result.docs, 'album'));
+
+					var albumList = reduceNames(result.docs, 'album');
+					resolve(albumList);
+
 				}).catch(reject);
 
 			}).catch(reject);
@@ -237,20 +271,18 @@ module.exports = function Models () {
 			}).then(function () {
 
 				music.find({
+
 					selector: {artist: name},
 					fields: ['_id', 'name', 'number', 'album']
+
 				}).then(function (result) {
 
-					var albums = sortAlbums(result.docs);
-
-					resolve({
-						name: name,
-						albums: albums
-					});
+					var artistInfo = formatArtist(name, result.docs);
+					resolve(artistInfo);
 
 				}).catch(reject);
 
-			});
+			}).catch(reject);
 
 		});
 
@@ -266,16 +298,14 @@ module.exports = function Models () {
 			}).then(function () {
 
 				music.find({
+
 					selector: {album: name},
 					fields: ['_id', 'name', 'number']
+
 				}).then(function (result) {
 
-					var songs = sortSongs(result.docs);
-
-					resolve({
-						name: name,
-						songs: songs
-					});
+					var albumInfo = formatAlbum(name, result.docs);
+					resolve(albumInfo);
 
 				}).catch(reject);
 
