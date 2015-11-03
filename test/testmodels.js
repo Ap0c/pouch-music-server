@@ -4,61 +4,64 @@ var Models = require('../js/models.js');
 var PouchDB = require('pouchdb');
 
 
+// ----- Setup ----- //
+
+var songs = [
+	{
+		'_id': '1',
+		'name': 'Space Oddity',
+		'artist': 'David Bowie',
+		'album': 'David Bowie',
+		'number': 1
+	},
+	{
+		'_id': '2',
+		'name': 'Killer Queen',
+		'artist': 'Queen',
+		'album': 'Sheer Heart Attack',
+		'number': 2
+	},
+	{
+		'_id': '3',
+		'name': 'Hysteria',
+		'artist': 'Muse',
+		'album': 'Absolution',
+		'number': 8
+	},
+	{
+		'_id': '4',
+		'name': 'Money',
+		'artist': 'Pink Floyd',
+		'album': 'Dark Side of the Moon',
+		'number': 6
+	},
+	{
+		'_id': '5',
+		'name': 'Fake Plastic Trees',
+		'artist': 'Radiohead',
+		'album': 'The Bends',
+		'number': 4
+	},
+	{
+		'_id': '6',
+		'name': 'Californication',
+		'artist': 'Red Hot Chili Peppers',
+		'album': 'Californication',
+		'number': 6
+	},
+	{
+		'_id': '7',
+		'name': 'Time Is Running Out',
+		'artist': 'Muse',
+		'album': 'Absolution',
+		'number': 3
+	}
+];
+
+
 // ----- Tests ----- //
 
-describe('Tests the models module.', function () {
-
-	var songs = [
-		{
-			'_id': '1',
-			'name': 'Space Oddity',
-			'artist': 'David Bowie',
-			'album': 'David Bowie',
-			'number': 1
-		},
-		{
-			'_id': '2',
-			'name': 'Killer Queen',
-			'artist': 'Queen',
-			'album': 'Sheer Heart Attack',
-			'number': 2
-		},
-		{
-			'_id': '3',
-			'name': 'Hysteria',
-			'artist': 'Muse',
-			'album': 'Absolution',
-			'number': 8
-		},
-		{
-			'_id': '4',
-			'name': 'Money',
-			'artist': 'Pink Floyd',
-			'album': 'Dark Side of the Moon',
-			'number': 6
-		},
-		{
-			'_id': '5',
-			'name': 'Fake Plastic Trees',
-			'artist': 'Radiohead',
-			'album': 'The Bends',
-			'number': 4
-		},
-		{
-			'_id': '6',
-			'name': 'Californication',
-			'artist': 'Red Hot Chili Peppers',
-			'album': 'Californication',
-			'number': 6
-		},
-		{
-			'_id': '7',
-			'name': 'Time Is Running Out',
-			'artist': 'Muse',
-			'album': 'Absolution',
-			'number': 3
-		}
-	];
+describe.only('Tests the models module.', function () {
 
 	before(function (done) {
 
@@ -255,6 +258,25 @@ describe('Tests the models module.', function () {
 			expect(album.name).to.equal('Absolution');
 			expect(album.songs.length).to.equal(2);
 			expect(album.songs).to.eql(songList);
+
+			done();
+
+		}).catch(done);
+
+	});
+
+	it('Should retrieve information on a specific artist.', function (done) {
+
+		var models = Models();
+		var songList = [{ _id: '7', name: 'Time Is Running Out', number: 3 },
+			{ _id: '3', name: 'Hysteria', number: 8 }];
+
+		models.artist('Muse').then(function (artist) {
+
+			expect(artist.name).to.equal('Muse');
+			expect(artist.albums.length).to.equal(1);
+			expect(artist.albums[0].name).to.equal('Absolution');
+			expect(artist.albums[0].songs).to.eql(songList);
 
 			done();
 

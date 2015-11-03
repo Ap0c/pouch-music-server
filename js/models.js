@@ -37,9 +37,9 @@ module.exports = function Models () {
 	}
 
 	// Creates an array with just artist/album names from a db query.
-	function reduceNames (result, field) {
+	function reduceNames (docset, field) {
 
-		var names = result.filter(function removeDupes (doc, index, docs) {
+		var names = docset.filter(function removeDupes (doc, index, docs) {
 
 			var prevDoc = docs[index - 1];
 			return prevDoc ? doc[field] !== prevDoc[field] : true;
@@ -66,6 +66,45 @@ module.exports = function Models () {
 			return 0;
 
 		});
+
+	}
+
+	// Sorts an object of albums into the format required for return.
+	function formatAlbums (albumSet) {
+
+		var albums = [];
+
+		for (var album in albumSet) {
+
+			var songs = sortSongs(albumSet[album]);
+
+			albums.push({ name: album, songs: songs });
+
+		}
+
+		return albums;
+
+	}
+
+	// Sorts the songs into an array of albums.
+	function sortAlbums (docset) {
+
+		var albums = {};
+
+		docset.forEach(function (doc, index, docs) {
+
+			var album = doc.album;
+			delete doc.album;
+
+			if (albums[album]) {
+				albums[album].push(doc);
+			} else {
+				albums[album] = [doc];
+			}
+
+		});
+
+		return formatAlbums(albums);
 
 	}
 
@@ -189,21 +228,33 @@ module.exports = function Models () {
 	};
 
 	// Retrieves all available data on an artist.
-	// models.artist = function artist (name) {
+	models.artist = function artist (name) {
 
-	// 	music.createIndex({
-	// 		index: {fields: ['artist']}
-	// 	}).then(function () {
+		return new Promise(function (resolve, reject) {
 
-	// 		music.find({
-	// 			selector: {artist: name}
-	// 		}).then(function (result) {
+			music.createIndex({
+				index: {fields: ['artist']}
+			}).then(function () {
 
-	// 		}).catch(reject);
+				music.find({
+					selector: {artist: name},
+					fields: ['_id', 'name', 'number', 'album']
+				}).then(function (result) {
 
-	// 	});
+					var albums = sortAlbums(result.docs);
 
-	// };
+					resolve({
+						name: name,
+						albums: albums
+					});
+
+				}).catch(reject);
+
+			});
+
+		});
+
+	};
 
 	// Retrieves all available data on an album.
 	models.album = function album (name) {
