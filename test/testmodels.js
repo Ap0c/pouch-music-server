@@ -298,4 +298,23 @@ describe('Tests the models module.', function () {
 
 	});
 
+	it.only('Should add an artist to the up next playlist.', function (done) {
+
+		var models = Models();
+		var expectedPlaylist = [songs[2]];
+
+		models.artist('Muse').then(models.addArtist).then(function () {
+
+			var upNext = models.upNext();
+			var nowPlaying = models.nowPlaying();
+
+			expect(upNext).to.eql(expectedPlaylist);
+			expect(nowPlaying).to.eql(songs[6]);
+
+			done();
+
+		}).catch(done);
+
+	});
+
 });

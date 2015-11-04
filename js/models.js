@@ -197,9 +197,7 @@ module.exports = function Models () {
 				addSongsResult(result, clear);
 				resolve();
 
-			}).catch(function (err) {
-				reject(err);
-			});
+			}).catch(reject);
 
 		});
 
@@ -339,6 +337,29 @@ module.exports = function Models () {
 				}).catch(reject);
 
 			}).catch(reject);
+
+		});
+
+	};
+
+	// Takes an artist object and adds songs to upnext, if playNow clear first.
+	models.addArtist = function addArtist (artist, playNow) {
+
+		return new Promise(function (resolve, reject) {
+
+			var songs = [];
+
+			artist.albums.forEach(function (album) {
+
+				var albumSongs = album.songs.map(function (song) {
+					return song._id;
+				});
+
+				songs = songs.concat(albumSongs);
+
+			});
+
+			models.addSongs(songs, playNow).then(resolve).catch(reject);
 
 		});
 
