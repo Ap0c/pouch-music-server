@@ -298,7 +298,7 @@ describe('Tests the models module.', function () {
 
 	});
 
-	it.only('Should add an artist to the up next playlist.', function (done) {
+	it('Should add an artist to the up next playlist.', function (done) {
 
 		var models = Models();
 		var expectedPlaylist = [songs[2]];

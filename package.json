@@ -13,14 +13,14 @@
   "scripts": {
     "copy-assets-dev": "cp html/index.html build/site-dev && cp -r css build/site-dev/static && cp server.js build/site-dev && cp node_modules/dialog-polyfill/dialog-polyfill.js build/site-dev/static/js && cp node_modules/dialog-polyfill/dialog-polyfill.css build/site-dev/static/css",
     "copy-assets": "cp html/index.html build/site && cp -r css build/site/static && cp server.js build/site && cp node_modules/dialog-polyfill/dialog-polyfill.js build/site/static/js && cp node_modules/dialog-polyfill/dialog-polyfill.css build/site/static/css",
-    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/static/js && browserify js/controller.js > build/site-dev/static/js/app.js -d && npm run copy-assets-dev",
-    "build": "rm -rf build/site && mkdir -p build/site/static/js && browserify js/controller.js > build/site/static/js/app.js && npm run copy-assets",
+    "build-dev": "rm -rf build/site-dev && mkdir -p build/site-dev/static/js && mkdir build/site-dev/musicdb && browserify js/controller.js > build/site-dev/static/js/app.js -d && npm run copy-assets-dev",
+    "build": "rm -rf build/site && mkdir -p build/site/static/js && mkdir build/site/musicdb && browserify js/controller.js > build/site/static/js/app.js && npm run copy-assets",
     "serve-dev": "npm run build-dev && cd build/site-dev && node server.js",
     "serve": "npm run build && cd build/site && node server.js",
     "buildtests": "browserify test/testplayer.js test/testviews.js test/testmodels.js > test/build/static/tests.js",
     "copy-test-assets": "cp node_modules/chai/chai.js node_modules/mocha/{mocha.css,mocha.js} test/build/static && cp -r media test/build/static && cp node_modules/dialog-polyfill/dialog-polyfill.js test/build/static && cp node_modules/dialog-polyfill/dialog-polyfill.css test/build/static",
     "copytests": "cp test/test.html test/build/index.html && cp server.js test/build/server.js && npm run copy-test-assets && cp -r media test/build/static",
-    "test": "rm -rf test/build && mkdir -p test/build/{static,media} && npm run buildtests && npm run copytests && cd test/build && open http://localhost:3000 && node server.js"
+    "test": "rm -rf test/build && mkdir -p test/build/{static,media,musicdb} && npm run buildtests && npm run copytests && cd test/build && open http://localhost:3000 && node server.js"
   },
   "devDependencies": {
     "browserify": "^11.2.0",

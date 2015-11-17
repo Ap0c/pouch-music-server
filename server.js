@@ -8,7 +8,8 @@ var expressPouchDB = require('express-pouchdb');
 // ----- Setup ----- //
 
 var app = express();
-app.use('/db', expressPouchDB(PouchDB));
+var musicDB = PouchDB.defaults({prefix: 'musicdb/'});
+app.use('/db', expressPouchDB(musicDB));
 app.use('/static', express.static('static'));
 
 
