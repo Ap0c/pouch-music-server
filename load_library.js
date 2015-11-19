@@ -7,6 +7,43 @@ var PouchDB = require('pouchdb');
 
 // ----- Functions ----- //
 
+// Checks that the iTunes library and media directory exist.
+function checkLocations (libraryLocation, mediaLocation) {
+
+	var libraryExists = fs.statSync(libraryLocation).isFile();
+	var mediaExists = fs.statSync(mediaLocation).isDirectory();
+
+	if (!libraryExists) {
+		console.log('The iTunes library file does not appear to exist.');
+		return false;
+	}
+
+	if (!libraryExists) {
+		console.log('The media directory does not appear to exist.');
+		return false;
+	}
+
+	return true;
+
+}
+
+// Checks that the command line arguments given are valid.
+function checkArgs (libraryLocation, mediaLocation) {
+
+	if (!libraryLocation) {
+		console.log('Please supply the location of the iTunes library as the first argument.');
+		return false;
+	}
+
+	if (!mediaLocation) {
+		console.log('Please supply the location of the media as the second argument.');
+		return false;
+	}
+
+	return checkLocations(libraryLocation, mediaLocation);
+
+}
+
 // Reads and returns a list of tracks from an iTunes library file.
 function getTracks (libraryLocation) {
 
@@ -52,5 +89,45 @@ function songData (tracks) {
 	}
 
 	return data;
+
+}
+
+// Inputs the track data into the database.
+function inputData (data, dbLocation) {
+
+	var musicDB = PouchDB.defaults({prefix: dbLocation});
+	var db = new musicDB('music-db');
+
+	db.bulkDocs(data).then(function inputFinished () {
+
+		console.log('iTunes library stored successfully.');
+
+	}).catch(function inputError (err) {
+
+		console.log('There was a problem storing the iTunes data.');
+
+	});
+
+}
+
+
+// ----- Main ----- //
+
+var dbLocation = process.argv[2];
+var libraryLocation = process.argv[3];
+var mediaLocation = process.argv[4];
+
+if (checkArgs(libraryLocation, mediaLocation)) {
+
+	var tracks = getTracks(libraryLocation);
+
+	if (tracks) {
+
+		var songs = songData(tracks);
+		inputData(songs, dbLocation);
+
+	} else {
+		console.log('iTunes Library data appears to be invalid.');
+	}
 
 }
