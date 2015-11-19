@@ -23,3 +23,34 @@ function getTracks (libraryLocation) {
 
 }
 
+// Returns an object containing song info for a given track.
+function songInfo (trackData) {
+
+	return {
+
+		_id: song['Track ID'].toString() || null,
+		name: song.Name || null,
+		artist: song.Artist || null,
+		album: song.Album || null,
+		number: song['Track Number'] || null,
+		path: song.Location ? song.Location.split('iTunes%20Media')[1] : null
+
+	};
+
+}
+
+// Formats the data stored in the iTunes tracks, ready for database insertion.
+function songData (tracks) {
+
+	var data = [];
+
+	for (var track in tracks) {
+
+		var song = songInfo(tracks[track]);
+		data.push(song);
+
+	}
+
+	return data;
+
+}
