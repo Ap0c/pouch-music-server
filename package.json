@@ -7,6 +7,7 @@
     "dialog-polyfill": "^0.4.2",
     "express": "^4.13.3",
     "express-pouchdb": "^1.0.0",
+    "plist": "^1.2.0",
     "pouchdb": "^5.0.0",
     "pouchdb-find": "^0.6.0"
   },
