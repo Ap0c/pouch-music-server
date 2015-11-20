@@ -92,6 +92,8 @@ function setup () {
 	menuHandlers();
 	overlayHandlers();
 
+	views.emit('menu: artists');
+
 }
 
 

@@ -61,7 +61,7 @@ function getTracks (libraryLocation) {
 }
 
 // Returns an object containing song info for a given track.
-function songInfo (trackData) {
+function songInfo (song) {
 
 	return {
 
@@ -83,8 +83,12 @@ function songData (tracks) {
 
 	for (var track in tracks) {
 
-		var song = songInfo(tracks[track]);
-		data.push(song);
+		if (tracks[track].Kind && tracks[track].Kind.includes('audio file')) {
+
+			var song = songInfo(tracks[track]);
+			data.push(song);
+
+		}
 
 	}
 
@@ -97,6 +101,7 @@ function inputData (data, dbLocation) {
 
 	var musicDB = PouchDB.defaults({prefix: dbLocation});
 	var db = new musicDB('music-db');
+	console.log(data);
 
 	db.bulkDocs(data).then(function inputFinished () {
 

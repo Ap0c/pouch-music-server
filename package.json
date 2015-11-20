@@ -18,6 +18,8 @@
     "build": "rm -rf build/site && mkdir -p build/site/static/js && mkdir build/site/musicdb && browserify js/controller.js > build/site/static/js/app.js && npm run copy-assets",
     "serve-dev": "npm run build-dev && cd build/site-dev && node server.js",
     "serve": "npm run build && cd build/site && node server.js",
+    "import-itunes-dev": "npm run build-dev && node load_library.js build/site-dev/musicdb/",
+    "import-itunes": "npm run build && node load_library.js build/site/musicdb/",
     "buildtests": "browserify test/testplayer.js test/testviews.js test/testmodels.js > test/build/static/tests.js",
     "copy-test-assets": "cp node_modules/chai/chai.js node_modules/mocha/{mocha.css,mocha.js} test/build/static && cp -r media test/build/static && cp node_modules/dialog-polyfill/dialog-polyfill.js test/build/static && cp node_modules/dialog-polyfill/dialog-polyfill.css test/build/static",
     "copytests": "cp test/test.html test/build/index.html && cp server.js test/build/server.js && npm run copy-test-assets && cp -r media test/build/static",
