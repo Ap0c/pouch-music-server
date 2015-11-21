@@ -1,6 +1,7 @@
 // ----- Requires ----- //
 
 var fs = require('fs');
+var path = require('path');
 var plist = require('plist');
 var PouchDB = require('pouchdb');
 
@@ -18,7 +19,7 @@ function checkLocations (libraryLocation, mediaLocation) {
 		return false;
 	}
 
-	if (!libraryExists) {
+	if (!mediaExists) {
 		console.log('The media directory does not appear to exist.');
 		return false;
 	}
@@ -99,7 +100,7 @@ function songData (tracks) {
 // Inputs the track data into the database.
 function inputData (data, dbLocation) {
 
-	var musicDB = PouchDB.defaults({prefix: dbLocation});
+	var musicDB = PouchDB.defaults({prefix: path.join(dbLocation, 'musicdb')});
 	var db = new musicDB('music-db');
 	console.log(data);
 
@@ -123,6 +124,8 @@ var libraryLocation = process.argv[3];
 var mediaLocation = process.argv[4];
 
 if (checkArgs(libraryLocation, mediaLocation)) {
+
+	fs.symlinkSync(mediaLocation, path.join(dbLocation, 'static/media'));
 
 	var tracks = getTracks(libraryLocation);
 
