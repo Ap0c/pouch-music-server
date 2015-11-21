@@ -85,7 +85,11 @@ module.exports = function Views () {
 
 		nowPlaying.addEventListener('click', emitEvent('view-player'));
 		closePlayer.addEventListener('click', emitEvent('close-player'));
-		menuPopup.addEventListener('click', emitEvent('view-menu'));
+
+		menuPopup.addEventListener('click', function openMenu (clickEvent) {
+			clickEvent.stopPropagation();
+			emitEvent('view-menu')();
+		});
 
 	}
 
