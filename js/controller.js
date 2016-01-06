@@ -25,7 +25,7 @@ function playbackHandlers () {
 	views.on('previous', models.prev);
 
 	models.on('new-playing', function playSong (song) {
-		player.newSong(song.url);
+		player.newSong(song.path);
 		player.play();
 	});
 
@@ -80,6 +80,16 @@ function overlayHandlers () {
 
 }
 
+// Adds songs to playlist and plays them based upon user input.
+function songHandlers () {
+
+	views.on('play-song', function playSong (song) {
+		console.log(song);
+		models.addSongs([song._id], true);
+	});
+
+}
+
 // Instantiates the app modules, and sets up handlers for user input.
 function setup () {
 
@@ -91,6 +101,7 @@ function setup () {
 	viewHandlers();
 	menuHandlers();
 	overlayHandlers();
+	songHandlers();
 
 	views.emit('menu: artists');
 

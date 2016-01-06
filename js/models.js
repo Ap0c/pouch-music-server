@@ -185,6 +185,8 @@ module.exports = function Models () {
 	// Adds songs to the up next playlist, if clear is true, empties it first.
 	models.addSongs = function addSongs (songs, clear) {
 
+		console.log(songs);
+
 		return new Promise(function (resolve, reject) {
 
 			music.allDocs({
@@ -195,6 +197,7 @@ module.exports = function Models () {
 			}).then(function (result) {
 
 				addSongsResult(result, clear);
+				if (clear) { models.emit('new-playing'); }
 				resolve();
 
 			}).catch(reject);

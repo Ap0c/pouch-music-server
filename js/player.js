@@ -41,7 +41,7 @@ module.exports = function Player () {
 	player.newSong = function newSong (song) {
 
 		if (song) {
-			nowPlaying.src = song;
+			nowPlaying.src = '/static/media/' + song;
 		} else {
 			throw Error('No song url.');
 		}

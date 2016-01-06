@@ -100,9 +100,8 @@ function songData (tracks) {
 // Inputs the track data into the database.
 function inputData (data, dbLocation) {
 
-	var musicDB = PouchDB.defaults({prefix: path.join(dbLocation, 'musicdb')});
+	var musicDB = PouchDB.defaults({prefix: path.join(dbLocation, 'musicdb/')});
 	var db = new musicDB('music-db');
-	console.log(data);
 
 	db.bulkDocs(data).then(function inputFinished () {
 
