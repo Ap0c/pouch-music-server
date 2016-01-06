@@ -1,6 +1,8 @@
 # Music Server
 
-A means of serving music files over a local network, and a web app to control playback. Also includes capabilities for retrieving metadata from an iTunes plist. Exists mainly for experimentation purposes, specifically to explore the capabilities of [PouchDB](http://pouchdb.com). A personal project, not meant for use in production (partly because it's really slow!).
+A client-server music player designed for use on a local network. Consists of a web app for music playback, and a backend designed to serve that app and the music files themselves.
+
+Also includes capabilities for retrieving metadata from an iTunes plist. Exists mainly for experimentation purposes, specifically to explore the capabilities of [PouchDB](http://pouchdb.com). A personal project, not meant for use in production (partly because it's really slow!).
 
 ## Build
 
